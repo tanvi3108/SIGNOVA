@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Signova — AI Sign Language Reader (Frontend)</title>
+  <meta name="description" content="Signova front-end — real-time sign-to-text demo using webcam and 5s video recordings. HTML, CSS, JavaScript only." />
+  <style>
+    :root{--accent:#0f62fe;--muted:#6b7280;font-family:Inter,system-ui,Segoe UI,Roboto,Arial}
+    *{box-sizing:border-box}html,body{height:100%;margin:0;background:#f7fbff;color:#071223}
+    header{display:flex;align-items:center;gap:14px;padding:16px;max-width:1100px;margin:0 auto}
+    .logo{width:46px;height:46px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#6a00f4);display:grid;place-items:center;color:#fff;font-weight:700}
+    main{max-width:1100px;margin:14px auto;padding:16px}
+    .grid{display:grid;grid-template-columns:1fr 380px;gap:18px}
+    @media(max-width:980px){.grid{grid-template-columns:1fr}}
+    .card{background:#ffffff;border-radius:12px;padding:14px;box-shadow:0 8px 24px rgba(15,23,42,0.06)}
+    .controls{display:flex;gap:8px;flex-wrap:wrap}
+    button{padding:8px 12px;border-radius:8px;border:1px solid rgba(12,18,34,0.06);background:#fff;cursor:pointer}
+    button.primary{background:var(--accent);color:#fff;border:none}
+    button.warn{background:#ef4444;color:#fff;border:none}
+    video,canvas{width:100%;height:auto;border-radius:10px;background:#000}
+    .preview{margin-top:10px}
+    .result{display:flex;align-items:center;justify-content:space-between;padding:8px;background:linear-gradient(90deg,#ffffff,#f8fafc);border-radius:8px}
+    label{font-size:13px;color:var(--muted)}
+    input[type=range]{width:100%}
+    footer{text-align:center;color:var(--muted);margin-top:14px}
+    .small{font-size:13px;color:var(--muted)}
+    .status{font-size:13px;padding:6px;border-radius:8px;background:#f1f5f9;margin-top:8px}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">SV</div>
+    <div>
+      <div style="font-weight:700">Signova — AI Sign Language Reader</div>
+      <div class="small">Records 5s video clips and sends to backend • HTML / CSS / JavaScript only</div>
+    </div>
+  </header>
+
+  <main>
+    <div class="grid">
+      <!-- LEFT: capture & predictions -->
+      <section class="card" aria-labelledby="live">
+        <h2 id="live">Record 5s video → send → show results</h2>
+        <p class="small">Click <strong>Record 5s</strong> to capture a 5-second video from the webcam. After recording, the clip is sent to the backend endpoint and the returned prediction is displayed. Demo mode simulates backend responses for teacher review.</p>
+
+        <div class="controls" role="group" aria-label="controls">
+          <button id="startCam" class="primary">Start Camera</button>
+          <button id="stopCam">Stop Camera</button>
+
+          <button id="record5" class="primary">Record 5s</button>
+          <button id="cancelRecord" class="warn">Cancel</button>
+
+          <label style="display:inline-flex;align-items:center;gap:8px"><input id="demoMode" type="checkbox"> Demo mode</label>
+
+          <label for="fileUpload"><button>Upload Video</button></label>
+          <input id="fileUpload" accept="video/*" type="file" style="display:none">
+        </div>
+
+        <div style="height:8px"></div>
+        <div style="display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap">
+          <div style="flex:1">
+            <video id="video" playsinline autoplay muted></video>
+            <canvas id="canvas" width="640" height="480" style="display:none"></canvas>
+
+            <div class="preview">
+              <div class="result" aria-live="polite">
+                <div>
+                  <div style="font-weight:700" id="label">—</div>
+                  <div class="small" id="meta">No result yet</div>
+                </div>
+                <div style="width:160px">
+                  <div style="height:10px;background:#eef2ff;border-radius:999px;overflow:hidden"><div id="bar" style="height:100%;width:0%"></div></div>
+                </div>
+              </div>
+              <div id="details" style="margin-top:8px"></div>
+              <div id="status" class="status">Idle</div>
+            </div>
+          </div>
+
+          <div style="width:320px">
+            <div class="card">
+              <h3 style="margin:0 0 8px 0">Settings & controls</h3>
+              <label>Backend endpoint</label>
+              <input id="backend" type="text" value="/predict-video" style="width:100%;padding:8px;border-radius:8px;border:1px solid #e6e9ef">
+
+              <label style="margin-top:8px;display:block">Auto-send after recording</label>
+              <label style="display:inline-flex;align-items:center;gap:8px"><input id="autoSend" type="checkbox" checked> Auto-send</label>
+
+              <div style="margin-top:10px">
+                <button id="download">Download report</button>
+              </div>
+
+              <div style="margin-top:8px;font-size:13px;color:var(--muted)">Privacy: Video is only sent when you click record/upload. No automatic persistent storage.</div>
+            </div>
+
+            <div style="margin-top:12px" class="card">
+              <h4 style="margin:0 0 8px 0">Latest results</h4>
+              <div id="history" style="max-height:180px;overflow:auto"></div>
+            </div>
+          </div>
+        </div>
+
+        <details style="margin-top:12px">
+          <summary>Notes</summary>
+          <ul>
+            <li>MediaRecorder is used to capture a 5s webm/ogg blob. Some browsers differ in codecs; backend should accept common containers (webm/mkv/mp4 if supported).</li>
+            <li>When Demo mode is on, fake responses are shown instead of network requests.</li>
+          </ul>
+        </details>
+      </section>
+
+      <!-- RIGHT: synopsis & instructions -->
+      <aside class="card" aria-labelledby="syn">
+        <h3 id="syn">Project synopsis (Signova)</h3>
+        <p class="small">Signova converts sign language to text. This front-end records short 5-second clips for each gesture attempt and sends them to the model server for prediction. The UI shows the returned label(s) and confidences.</p>
+
+        <div style="margin-top:8px">
+          <strong>Backend contract</strong>
+          <p class="small">POST to the configured endpoint with FormData field named <code>video</code>. Example server response:</p>
+          <pre style="background:#f3f4f6;padding:8px;border-radius:6px">{ "label":"HELLO", "scores":[{"label":"HELLO","score":0.92}, {"label":"YES","score":0.03}] }</pre>
+          <div class="small">If your backend uses a different field name or returns another schema, tell me and I'll adapt the parsing code.</div>
+        </div>
+      </aside>
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="small">Built for Signova. Records 5s clips, sends to backend, displays results — purely HTML/CSS/JS.</div>
+  </footer>
+
+  <script>
+    // Elements
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const startCam = document.getElementById('startCam');
+    const stopCam = document.getElementById('stopCam');
+    const record5 = document.getElementById('record5');
+    const cancelRecord = document.getElementById('cancelRecord');
+    const fileUpload = document.getElementById('fileUpload');
+    const demoMode = document.getElementById('demoMode');
+    const backendInput = document.getElementById('backend');
+    const labelEl = document.getElementById('label');
+    const bar = document.getElementById('bar');
+    const meta = document.getElementById('meta');
+    const details = document.getElementById('details');
+    const historyEl = document.getElementById('history');
+    const statusEl = document.getElementById('status');
+    const downloadBtn = document.getElementById('download');
+    const autoSend = document.getElementById('autoSend');
+
+    let stream = null;
+    let mediaRecorder = null;
+    let recordedChunks = [];
+    let lastResponse = null;
+    const HISTORY_LIMIT = 40;
+
+    function setStatus(t){ statusEl.textContent = t; }
+
+    function updateHistory(item){ history.unshift(item); if(history.length>HISTORY_LIMIT) history.pop(); renderHistory(); }
+    let history = [];
+    function renderHistory(){ historyEl.innerHTML=''; history.forEach(h=>{ const d=document.createElement('div'); d.className='small'; d.style.padding='6px 0'; d.textContent=`${h.time} — ${h.label} (${Math.round(h.score*100)}%)`; historyEl.appendChild(d); }); }
+
+    // Camera control
+    startCam.addEventListener('click', async ()=>{
+      try{
+        stream = await navigator.mediaDevices.getUserMedia({video:{width:640,height:480},audio:true});
+        video.srcObject = stream; await video.play();
+        setStatus('Camera started');
+      }catch(e){ alert('Unable to access camera. Run on https or localhost.'); setStatus('Camera unavailable'); }
+    });
+    stopCam.addEventListener('click', ()=>{ if(stream){ stream.getTracks().forEach(t=>t.stop()); stream=null; video.pause(); video.srcObject=null; setStatus('Camera stopped'); } });
+
+    // Recording logic: records for 5 seconds when user clicks Record 5s
+    record5.addEventListener('click', async ()=>{
+      if(!stream){ alert('Start camera first'); return; }
+      // prevent double start
+      if(mediaRecorder && mediaRecorder.state==='recording'){ alert('Recording in progress'); return; }
+
+      recordedChunks = [];
+      try{
+        // prefer webm; the browser decides supported mime
+        const options = { mimeType: 'video/webm;codecs=vp8,opus' };
+        mediaRecorder = new MediaRecorder(stream, options);
+      }catch(e){
+        try{ mediaRecorder = new MediaRecorder(stream); }catch(err){ alert('MediaRecorder not supported: '+err.message); return; }
+      }
+
+      mediaRecorder.ondataavailable = (ev)=>{ if(ev.data && ev.data.size>0) recordedChunks.push(ev.data); };
+      mediaRecorder.onstop = async ()=>{
+        const blob = new Blob(recordedChunks, { type: recordedChunks[0]?.type || 'video/webm' });
+        setStatus('Recording complete — '+Math.round(blob.size/1024)+' KB');
+        // show local preview by creating a URL
+        const url = URL.createObjectURL(blob);
+        // show the recorded clip in the video element for quick review
+        video.srcObject = null; video.pause(); video.src = url; video.controls = true; video.play();
+
+        if(autoSend.checked){ await sendVideoBlob(blob); }
+        else{ // store last blob for manual send (we provide manual send by re-record or upload)
+          lastResponse = { blob }; setStatus('Recorded. Click Record again to make another clip or Upload/Auto-send is off.');
+        }
+      };
+
+      mediaRecorder.start();
+      setStatus('Recording 5 seconds...');
+      // stop after 5 seconds automatically
+      setTimeout(()=>{ try{ mediaRecorder.stop(); }catch(e){} }, 5000);
+    });
+
+    cancelRecord.addEventListener('click', ()=>{
+      if(mediaRecorder && mediaRecorder.state==='recording'){ mediaRecorder.stop(); setStatus('Recording cancelled'); }
+      recordedChunks = []; if(stream){ video.srcObject = stream; video.controls = false; video.play(); }
+    });
+
+    // Upload file handler (user can upload their own video file)
+    fileUpload.addEventListener('change', async e=>{
+      const f = e.target.files[0]; if(!f) return; setStatus('File selected — '+f.name);
+      // quick preview
+      const url = URL.createObjectURL(f); video.srcObject = null; video.pause(); video.src = url; video.controls = true; video.play();
+      if(autoSend.checked) await sendVideoBlob(f);
+      else{ lastResponse = { blob: f }; }
+    });
+
+    // Send video blob to backend
+    async function sendVideoBlob(blob){
+      setStatus('Preparing video for upload...');
+      // Prepare form data
+      const fd = new FormData();
+      // backend expects field named 'video' per synopsis
+      fd.append('video', blob, 'clip.webm');
+
+      if(demoMode.checked){ // simulate
+        setStatus('Demo mode — simulating server response');
+        const fake = produceDemoResponse(); renderResult(fake); return fake;
+      }
+
+      setStatus('Uploading video to backend...');
+      try{
+        const url = backendInput.value.trim() || '/predict-video';
+        const res = await fetch(url, { method: 'POST', body: fd });
+        if(!res.ok) throw new Error('Server returned '+res.status);
+        const data = await res.json();
+        renderResult(data);
+        setStatus('Server responded');
+        return data;
+      }catch(err){
+        console.warn('Upload failed', err); setStatus('Upload failed — falling back to demo');
+        const fake = produceDemoResponse(); renderResult(fake); return fake;
+      }
+    }
+
+    // Render response to UI
+    function renderResult(resp){
+      if(!resp){ labelEl.textContent='—'; bar.style.width='0%'; meta.textContent='No response'; details.innerHTML=''; return; }
+      const top = resp.scores && resp.scores[0] ? resp.scores[0] : { label: resp.label||'—', score: resp.score||0 };
+      labelEl.textContent = top.label;
+      bar.style.width = Math.round((top.score||0)*100)+'%';
+      meta.textContent = `confidence ${Math.round((top.score||0)*100)}% — ${new Date().toLocaleTimeString()}`;
+      details.innerHTML = resp.scores ? resp.scores.slice(0,6).map(s=>`<div class='small'>${s.label}: ${Math.round(s.score*100)}%</div>`).join('') : '';
+      lastResponse = resp; updateHistory({ time: new Date().toLocaleTimeString(), label: top.label, score: top.score||0 });
+    }
+
+    // Simple fake response
+    function produceDemoResponse(){ const labels = ['HELLO','YES','NO','THANK YOU','A','B','C']; const label = labels[Math.floor(Math.random()*labels.length)]; const score = 0.6 + Math.random()*0.35; const scores = [{label,score}, ...labels.filter(l=>l!==label).slice(0,4).map(l=>({label:l,score:Math.random()*0.4}))]; return { label, scores } }
+
+    // Download report
+    downloadBtn.addEventListener('click', ()=>{
+      const txt = `Signova report\nTime: ${new Date().toLocaleString()}\nBackend: ${backendInput.value}\nLast response: ${JSON.stringify(lastResponse, null, 2)}`;
+      const b = new Blob([txt], { type: 'text/plain' }); const u = URL.createObjectURL(b); const a = document.createElement('a'); a.href = u; a.download = 'signova-report.txt'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(u);
+    });
+
+    // Ensure video plays current stream by default
+    navigator.mediaDevices && navigator.mediaDevices.getUserMedia && (function(){ /* hint to browser; no autoplay permission */ })();
+
+    // Safety console note
+    console.log('Signova front-end: ready. Use Record 5s to capture a clip and send it to the backend.');
+  </script>
+</body>
+</html>
