@@ -1,32 +1,32 @@
-```html
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Signova — Bridging hands & words</title>
-  <meta name="description" content="Signova — Sign language to text converter (frontend demo)." />
+  <meta name="description" content="Signova — Sign language to text converter." />
   <style>
-    /* ----------------- Theme / Reset ----------------- */
+    /* ----------------- Bright Sage + Green palette & reset ----------------- */
     :root{
-      --bg: #fbf7ff;
-      --panel: #fff;
-      --lav-1: #f3eefe;
-      --accent: #9b78ff;
-      --accent-2: #c7a9ff;
-      --muted: #6c6b76;
-      --card-shadow: 0 12px 40px rgba(106,83,178,0.06);
-      --radius: 16px;
-      --glass: rgba(255,255,255,0.6);
-      --max-width: 1100px;
+      --bg: #f6fbf7;            /* page background */
+      --panel: #ffffff;
+      --sage-soft: #eef6ed;     /* soft panel tint */
+      --sage: #90b29b;          /* sage */
+      --mint: #7fe3a3;          /* brighter mint */
+      --emerald: #2fb66a;       /* lively emerald */
+      --accent-2: #b7d6c1;      /* secondary soft */
+      --muted: #415048;
+      --card-shadow: 0 18px 50px rgba(47,182,106,0.06);
+      --radius: 18px;
+      --max-width: 1200px;
       font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
-      background: linear-gradient(180deg,var(--bg), #f8f5ff 45%);
-      color: #2b2540;
+      background: linear-gradient(180deg,var(--bg), #eef9ef 45%);
+      color: #26322b;
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
       padding:28px;
@@ -39,11 +39,11 @@
     .app {
       width:100%;
       max-width:var(--max-width);
-      background: linear-gradient(180deg, var(--panel), var(--lav-1));
-      border-radius:18px;
+      background: linear-gradient(180deg, var(--panel), var(--sage-soft));
+      border-radius:22px;
       box-shadow: var(--card-shadow);
       overflow:hidden;
-      border: 1px solid rgba(155,120,255,0.06);
+      border: 1px solid rgba(47,182,106,0.06);
     }
 
     /* ---------- header with logo and top-right nav ---------- */
@@ -51,22 +51,22 @@
       display:flex;
       align-items:center;
       justify-content:space-between;
-      padding:18px 28px;
+      padding:18px 32px;
       gap:16px;
     }
 
     .logo {
       display:flex;
       align-items:center;
-      gap:12px;
+      gap:14px;
     }
-    .logo svg { width:54px; height:54px; flex-shrink:0 }
+    .logo svg { width:58px; height:58px; flex-shrink:0 }
     .brand {
       display:flex;
       flex-direction:column;
       line-height:1;
     }
-    .brand .title { font-weight:800; letter-spacing:-0.2px; font-size:18px; color:#2a2340 }
+    .brand .title { font-weight:900; letter-spacing:-0.2px; font-size:20px; color:#1f3527 }
     .brand .tag { font-size:13px; color:var(--muted); margin-top:4px }
 
     nav.topnav {
@@ -76,13 +76,14 @@
     }
     nav.topnav a {
       text-decoration:none;
-      color: #4b3f6a;
-      font-weight:700;
-      padding:8px 10px;
-      border-radius:8px;
+      color: #2e5e49;
+      font-weight:800;
+      padding:10px 12px;
+      border-radius:10px;
+      transition: background .12s ease, transform .12s ease;
     }
-    nav.topnav a:focus { outline:3px solid rgba(155,120,255,0.16); outline-offset:3px; }
-    nav.topnav a:hover { background: rgba(155,120,255,0.06); }
+    nav.topnav a:focus { outline:3px solid rgba(47,182,106,0.14); outline-offset:3px; }
+    nav.topnav a:hover { background: linear-gradient(90deg, rgba(127,227,163,0.12), rgba(47,182,106,0.06)); transform: translateY(-2px); }
 
     /* ---------- main content ---------- */
     .content { padding:28px; display:grid; gap:22px; }
@@ -93,42 +94,68 @@
       gap:28px;
       align-items:center;
       justify-content:space-between;
-      padding:26px;
-      border-radius:12px;
-      background: linear-gradient(90deg, rgba(155,120,255,0.04), rgba(199,169,255,0.02));
-      border:1px solid rgba(155,120,255,0.04);
+      padding:30px;
+      border-radius:14px;
+      background: linear-gradient(100deg, rgba(127,227,163,0.06), rgba(159,204,170,0.02));
+      border:1px solid rgba(47,182,106,0.06);
+      position:relative;
+      overflow:visible;
     }
-    .hero-left{flex:1;min-width:240px}
-    .eyebrow{color:var(--accent);font-weight:700;font-size:13px;margin-bottom:8px}
-    h1{margin:0;font-size:clamp(22px, 3.4vw, 36px);line-height:1.06;color:#332a45}
-    p.lead{color: #534a63;margin-top:12px;max-width:64ch}
+    /* decorative leaf shapes */
+    .hero::before{
+      content:'';
+      position:absolute;
+      right:-80px;
+      top:-40px;
+      width:260px;height:260px;border-radius:50%;
+      background: radial-gradient(circle at 30% 30%, rgba(127,227,163,0.18), transparent 30%),
+                  radial-gradient(circle at 70% 70%, rgba(47,182,106,0.08), transparent 40%);
+      filter: blur(28px);
+      transform: rotate(12deg);
+      pointer-events:none;
+    }
+
+    .hero-left{flex:1;min-width:240px;z-index:2}
+    .eyebrow{color:var(--emerald);font-weight:800;font-size:13px;margin-bottom:8px}
+    h1{margin:0;font-size:clamp(22px, 3.4vw, 36px);line-height:1.06;color:#16321f}
+    p.lead{color: #395041;margin-top:12px;max-width:66ch}
 
     .cta { margin-top:18px; display:flex; gap:12px; align-items:center; }
     .btn {
-      padding:12px 18px;border-radius:12px;border:none;cursor:pointer;font-weight:800;
+      padding:12px 18px;border-radius:14px;border:none;cursor:pointer;font-weight:900;
       transition: transform .12s ease, box-shadow .12s ease;
       font-size:15px;
     }
-    .btn:focus{outline:3px solid rgba(155,120,255,0.14); outline-offset:3px}
-    .btn-primary { background: linear-gradient(90deg,var(--accent), var(--accent-2)); color:white; box-shadow:0 8px 24px rgba(155,120,255,0.12) }
-    .btn-ghost { background:transparent; color:var(--accent); border:1px solid rgba(155,120,255,0.06) }
-    .btn:hover{transform:translateY(-3px)}
+    .btn:focus{outline:3px solid rgba(47,182,106,0.14); outline-offset:3px}
+    .btn-primary {
+      background: linear-gradient(90deg,var(--emerald), var(--mint));
+      color:white;
+      box-shadow: 0 12px 30px rgba(47,182,106,0.14), inset 0 -2px 0 rgba(0,0,0,0.04);
+    }
+    .btn-secondary {
+      background: linear-gradient(90deg, rgba(127,227,163,0.14), rgba(183,214,193,0.06));
+      color: #23503b;
+      border: 1px solid rgba(47,182,106,0.06);
+      font-weight:800;
+    }
+    .btn:hover{transform:translateY(-4px)}
 
     .hero-right {
-      width:320px;
-      padding:14px;
+      width:360px;
+      padding:18px;
       border-radius:12px;
-      background:linear-gradient(180deg, #fff, rgba(255,255,255,0.96));
-      border:1px solid rgba(155,120,255,0.04);
+      background:linear-gradient(180deg, #ffffff, rgba(255,255,255,0.98));
+      border:1px solid rgba(47,182,106,0.04);
+      z-index:2;
     }
-    .motto{font-weight:800;margin-bottom:8px;color:#463d58}
+    .motto{font-weight:900;margin-bottom:8px;color:#294a36}
     .small{font-size:13px;color:var(--muted)}
 
     /* ---------- main grid (Main page) ---------- */
     .main-grid{
       display:grid;
-      grid-template-columns: 1fr 320px;
-      gap:20px;
+      grid-template-columns: 1fr 340px;
+      gap:22px;
       align-items:start;
     }
     @media(max-width:980px){ .main-grid{ grid-template-columns: 1fr } }
@@ -136,31 +163,34 @@
     .card{
       background: white;
       border-radius:12px;
-      padding:18px;
+      padding:20px;
       border:1px solid rgba(34,30,42,0.03);
-      box-shadow: 0 8px 30px rgba(34,30,42,0.03);
+      box-shadow: 0 10px 30px rgba(34,30,42,0.02);
     }
-    .section-title{font-weight:800;margin-bottom:8px;color:#34283f}
-    .offer-list{display:flex;flex-direction:column;gap:12px;margin-top:8px}
-    .offer-item{display:flex;gap:12px;align-items:flex-start}
-    .icon-circle{width:46px;height:46px;border-radius:10px;background:linear-gradient(180deg, var(--lav-1), #fff);display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--accent)}
+    .section-title{font-weight:900;margin-bottom:8px;color:#223a2d}
+    .offer-list{display:flex;flex-direction:column;gap:14px;margin-top:10px}
+    .offer-item{display:flex;gap:14px;align-items:flex-start}
+    .icon-circle{width:52px;height:52px;border-radius:12px;background:linear-gradient(180deg, var(--sage-soft), #fff);display:flex;align-items:center;justify-content:center;font-weight:900;color:var(--emerald);box-shadow:0 6px 20px rgba(47,182,106,0.06)}
+
+    /* small colorful tags */
+    .tag-badge{display:inline-block;padding:6px 10px;border-radius:999px;font-weight:800;font-size:12px;color:white;background:linear-gradient(90deg,var(--emerald),var(--mint));box-shadow:0 8px 24px rgba(47,182,106,0.12)}
 
     /* ---------- Converter styles ---------- */
     .converter-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
     @media(max-width:980px){ .converter-grid{grid-template-columns:1fr} }
 
     .uploader{
-      border:1px dashed rgba(155,120,255,0.12);
-      border-radius:12px;padding:16px;background:linear-gradient(180deg, rgba(199,169,255,0.02), transparent);
-      min-height:190px;display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center;
+      border:1px dashed rgba(47,182,106,0.14);
+      border-radius:12px;padding:18px;background:linear-gradient(180deg, rgba(183,214,193,0.03), transparent);
+      min-height:200px;display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center;
     }
     .uploader input{display:none}
-    .preview-img{max-width:100%;border-radius:10px;box-shadow:0 10px 30px rgba(99,72,161,0.06)}
-    .preview-video{width:100%;border-radius:10px;box-shadow:0 10px 30px rgba(99,72,161,0.06)}
+    .preview-img{max-width:100%;border-radius:10px;box-shadow:0 12px 34px rgba(47,182,106,0.08)}
+    .preview-video{width:100%;border-radius:10px;box-shadow:0 12px 34px rgba(47,182,106,0.08)}
 
     .uploader-actions{display:flex;gap:8px}
     .small-muted{font-size:13px;color:var(--muted)}
-    .hint{font-size:13px;color:#53465d}
+    .hint{font-size:13px;color:#3f5c4e}
 
     footer{padding:18px 28px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent)}
     .nav-footer{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
@@ -170,37 +200,41 @@
   </style>
 </head>
 <body>
-  <div class="app" role="application" aria-label="Signova frontend demo">
+  <div class="app" role="application" aria-label="Signova">
 
     <!-- HEADER: logo left, nav top-right -->
     <header>
       <div class="logo" aria-hidden="false">
-        <!-- simple bridging-hands + speech bubble logo (SVG) -->
+        <!-- colorful sage logo: bridging hands + speech bubble (SVG) -->
         <svg viewBox="0 0 120 120" role="img" aria-labelledby="logoTitle" xmlns="http://www.w3.org/2000/svg">
           <title id="logoTitle">Signova logo: bridging hands and words</title>
+          <!-- decorative leaf -->
+          <g transform="translate(2,6)">
+            <path d="M14 86 C28 72 44 66 60 64 C76 62 92 66 102 76 C96 46 70 30 46 36 C26 41 10 58 14 86 Z" fill="rgba(47,182,106,0.06)"/>
+          </g>
           <!-- left hand -->
           <g transform="translate(8,10)">
-            <path d="M28 50 C22 46 18 40 20 34 C22 28 28 26 34 28 C40 30 46 36 48 42 L32 54 Z" fill="#e9ddff"/>
-            <path d="M34 28 C38 26 44 28 48 34 C52 40 54 46 50 50" fill="none" stroke="#9b78ff" stroke-width="2" stroke-linecap="round"/>
+            <path d="M28 50 C22 46 18 40 20 34 C22 28 28 26 34 28 C40 30 46 36 48 42 L32 54 Z" fill="#f1fbf4"/>
+            <path d="M34 28 C38 26 44 28 48 34 C52 40 54 46 50 50" fill="none" stroke="var(--mint)" stroke-width="2.2" stroke-linecap="round"/>
           </g>
           <!-- right hand -->
           <g transform="translate(48,14)">
-            <path d="M12 32 C18 28 24 26 30 28 C36 30 40 36 42 42 C36 48 28 54 16 50 L12 32 Z" fill="#fff3ff"/>
-            <path d="M20 26 C24 24 30 26 34 32" fill="none" stroke="#7f58ff" stroke-width="2" stroke-linecap="round"/>
+            <path d="M12 32 C18 28 24 26 30 28 C36 30 40 36 42 42 C36 48 28 54 16 50 L12 32 Z" fill="#ffffff"/>
+            <path d="M20 26 C24 24 30 26 34 32" fill="none" stroke="#4aa36b" stroke-width="2.2" stroke-linecap="round"/>
           </g>
           <!-- speech bubble -->
           <g transform="translate(62,58)">
-            <rect x="0" y="0" rx="8" ry="8" width="40" height="26" fill="#fff" opacity="0.92" />
-            <path d="M10 26 L16 34 L20 26 Z" fill="#fff" opacity="0.92"/>
-            <circle cx="12" cy="10" r="3" fill="#9b78ff"/>
-            <circle cx="20" cy="10" r="3" fill="#c7a9ff"/>
-            <circle cx="28" cy="10" r="3" fill="#7f58ff"/>
+            <rect x="0" y="0" rx="8" ry="8" width="40" height="26" fill="#fff" opacity="0.98" />
+            <path d="M10 26 L16 34 L20 26 Z" fill="#fff" opacity="0.98"/>
+            <circle cx="12" cy="10" r="3" fill="var(--emerald)"/>
+            <circle cx="20" cy="10" r="3" fill="var(--mint)"/>
+            <circle cx="28" cy="10" r="3" fill="var(--sage)"/>
           </g>
         </svg>
 
         <div class="brand">
           <div class="title">Signova</div>
-          <!-- SINGLE MOTTO LINE: do not repeat elsewhere -->
+          <!-- SINGLE MOTTO LINE (header) -->
           <div class="tag">Bridging hands and words — sign language to text converter</div>
         </div>
       </div>
@@ -220,21 +254,22 @@
       <section id="homeSection">
         <div class="hero" role="region" aria-label="Homepage hero">
           <div class="hero-left">
-            <div class="eyebrow">Welcome</div>
+            <div class="eyebrow"><span class="tag-badge">New</span> Welcome</div>
 
-            <!-- NOTE: the motto appears only once above in the header tag. Keep hero heading short. -->
-            <h1>Make communication smoother with sign-to-text conversion</h1>
+            <!-- Short hero heading (note: motto already in header) -->
+            <h1>Make communication brighter with sign-to-text conversion</h1>
 
-            <p class="lead">A light, accessible interface that converts sign inputs into readable text. Click "Get started" to continue.</p>
+            <p class="lead">A lively, readable interface to convert sign inputs into clear text. Click "Get started" to continue.</p>
 
             <div class="cta" role="group" aria-label="Primary action">
               <button class="btn btn-primary" id="gotoMainBtn">Get started →</button>
+              <button class="btn btn-secondary" id="demoBtn" title="Try a quick demo">Quick demo</button>
             </div>
           </div>
 
           <div class="hero-right" aria-hidden="true">
-            <div class="motto">Clear • Simple • Thoughtful</div>
-            <div class="small">A calm, friendly design focused on readability and ease of use.</div>
+            <div class="motto">Vibrant • Friendly • Accessible</div>
+            <div class="small">Soft greens and mint accents to make the experience lively yet calm.</div>
           </div>
         </div>
       </section>
@@ -258,15 +293,15 @@
               <div class="offer-item">
                 <div class="icon-circle">1</div>
                 <div>
-                  <div style="font-weight:800">Upload & preview</div>
-                  <div class="small-muted">Upload an image or a short video and preview it before conversion.</div>
+                  <div style="font-weight:900">Upload & preview</div>
+                  <div class="small-muted">Upload an image or a short video and preview before conversion.</div>
                 </div>
               </div>
 
               <div class="offer-item">
                 <div class="icon-circle">2</div>
                 <div>
-                  <div style="font-weight:800">Manage uploads</div>
+                  <div style="font-weight:900">Manage uploads</div>
                   <div class="small-muted">Reupload or delete files as needed to refine inputs.</div>
                 </div>
               </div>
@@ -274,21 +309,26 @@
               <div class="offer-item">
                 <div class="icon-circle">3</div>
                 <div>
-                  <div style="font-weight:800">Readable output</div>
-                  <div class="small-muted">View conversion results (when backend is connected).</div>
+                  <div style="font-weight:900">Readable output</div>
+                  <div class="small-muted">View conversion results once the service is connected.</div>
                 </div>
               </div>
+            </div>
+
+            <div style="margin-top:16px; display:flex; gap:10px; align-items:center;">
+              <div style="width:10px;height:10px;border-radius:50%;background:var(--emerald)"></div>
+              <div class="small-muted">Bright accents indicate active controls and important actions.</div>
             </div>
           </div>
 
           <aside class="card">
-            <div style="font-weight:800;margin-bottom:6px">About</div>
+            <div style="font-weight:900;margin-bottom:8px">About</div>
             <div class="muted">Signova provides an interface for converting visual sign inputs into text, prioritizing clarity and accessibility.</div>
 
             <div style="margin-top:16px">
-              <div style="font-weight:800;margin-bottom:6px">Contact</div>
-              <div class="muted" style="margin-bottom:6px">For inquiries, use an email contact you prefer — replace the placeholder below.</div>
-              <a href="mailto:contact@example.com" style="color:var(--accent); text-decoration:none; font-weight:700">contact@example.com</a>
+              <div style="font-weight:900;margin-bottom:6px">Contact</div>
+              <div class="muted" style="margin-bottom:6px">Replace the placeholder email below with your preferred contact.</div>
+              <a href="mailto:contact@example.com" style="color:var(--emerald); text-decoration:none; font-weight:800">contact@example.com</a>
             </div>
           </aside>
         </div>
@@ -302,7 +342,7 @@
             <div class="muted">Upload an image or a short video. Use the controls to delete or reupload as needed.</div>
           </div>
           <div>
-            <button class="btn btn-ghost" id="backToMainBtn">← Back</button>
+            <button class="btn btn-secondary" id="backToMainBtn">← Back</button>
           </div>
         </div>
 
@@ -310,11 +350,11 @@
           <div class="converter-grid">
             <!-- IMAGE UPLOADER -->
             <div>
-              <div style="font-weight:800;margin-bottom:8px">Upload Image</div>
+              <div style="font-weight:900;margin-bottom:8px">Upload Image</div>
               <label class="uploader" id="imageUploaderLabel" tabindex="0" aria-label="Upload image">
                 <input type="file" accept="image/*" id="imageInput" />
                 <div id="imagePlaceholder">
-                  <div style="font-weight:700;color:#3b2e55">Click to choose an image</div>
+                  <div style="font-weight:700;color:#2f4f3f">Click to choose an image</div>
                   <div class="hint">Supported: JPG, PNG. Use a clear, centered sign image.</div>
                 </div>
               </label>
@@ -323,19 +363,19 @@
               <div id="imageControls" class="hide" style="margin-top:12px">
                 <img id="imagePreview" class="preview-img" alt="Uploaded sign image preview" />
                 <div class="uploader-actions" style="margin-top:10px">
-                  <button class="btn btn-ghost" id="reuploadImageBtn">Reupload</button>
-                  <button class="btn" id="deleteImageBtn" style="background:#ffd6e8;color:#5b2a4a">Delete</button>
+                  <button class="btn btn-secondary" id="reuploadImageBtn">Reupload</button>
+                  <button class="btn" id="deleteImageBtn" style="background:#ffdfe1;color:#7a2f2f">Delete</button>
                 </div>
               </div>
             </div>
 
             <!-- VIDEO UPLOADER -->
             <div>
-              <div style="font-weight:800;margin-bottom:8px">Upload Video</div>
+              <div style="font-weight:900;margin-bottom:8px">Upload Video</div>
               <label class="uploader" id="videoUploaderLabel" tabindex="0" aria-label="Upload video">
                 <input type="file" accept="video/*" id="videoInput" />
                 <div id="videoPlaceholder">
-                  <div style="font-weight:700;color:#3b2e55">Click to choose a video</div>
+                  <div style="font-weight:700;color:#2f4f3f">Click to choose a video</div>
                   <div class="hint">Supported: MP4, WebM. Keep short clips (5–20s) for testing.</div>
                 </div>
               </label>
@@ -343,8 +383,8 @@
               <div id="videoControls" class="hide" style="margin-top:12px">
                 <video id="videoPreviewEl" class="preview-video" controls></video>
                 <div class="uploader-actions" style="margin-top:10px">
-                  <button class="btn btn-ghost" id="reuploadVideoBtn">Reupload</button>
-                  <button class="btn" id="deleteVideoBtn" style="background:#ffd6e8;color:#5b2a4a">Delete</button>
+                  <button class="btn btn-secondary" id="reuploadVideoBtn">Reupload</button>
+                  <button class="btn" id="deleteVideoBtn" style="background:#ffdfe1;color:#7a2f2f">Delete</button>
                 </div>
               </div>
             </div>
@@ -394,6 +434,18 @@
     document.getElementById('gotoConverterBtn').addEventListener('click', ()=> showSection(converterSection));
     document.getElementById('backToMainBtn').addEventListener('click', ()=> showSection(mainSection));
 
+    // demo quick button: simulate a short toast/transcript (frontend only)
+    document.getElementById('demoBtn').addEventListener('click', ()=> {
+      const original = document.getElementById('gotoMainBtn');
+      original.disabled = true;
+      original.textContent = 'Launching demo...';
+      setTimeout(()=> {
+        original.disabled = false;
+        original.textContent = 'Get started →';
+        alert('Quick demo: This UI simulates conversion when the backend is connected.');
+      }, 900);
+    });
+
     // footer nav duplication
     document.getElementById('footHome').addEventListener('click', (e)=>{ e.preventDefault(); showSection(homeSection); });
     document.getElementById('footMain').addEventListener('click', (e)=>{ e.preventDefault(); showSection(mainSection); });
@@ -421,7 +473,7 @@
       imagePreview.alt = file.name;
       imagePlaceholder.style.display = 'none';
       imageControls.classList.remove('hide');
-      imageUploaderLabel.style.borderColor = 'rgba(155,120,255,0.18)';
+      imageUploaderLabel.style.borderColor = 'rgba(47,182,106,0.18)';
     });
 
     reuploadImageBtn.addEventListener('click', ()=> {
@@ -490,11 +542,10 @@
       });
     });
 
-    // accessibility: close mobile keyboards or reset focus on navigation
+    // accessibility: remove focus after click for smoother UX
     document.querySelectorAll('a, button, label').forEach(el => {
       el.addEventListener('click', ()=> el.blur && el.blur());
     });
   </script>
 </body>
 </html>
-```
