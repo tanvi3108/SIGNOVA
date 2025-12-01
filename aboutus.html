@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>About — Signova</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-1: #f7f2ff;
+    --bg-2: #f4eaff;
+    --white: #ffffff;
+    --purple: #8a4bff;
+    --purple-dark: #6d2fe3;
+    --muted: #5f4b78;
+    --card-border: rgba(150,100,255,0.10);
+    --glass: rgba(255,255,255,0.75);
+    --shadow: 0 18px 50px rgba(140,80,255,0.10);
+    --radius: 16px;
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  }
+
+  /* reset */
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;width:100%}
+  body{
+    background:
+      radial-gradient(700px 340px at 10% 12%, rgba(165,120,255,0.18), transparent 18%),
+      radial-gradient(520px 260px at 88% 82%, rgba(200,160,255,0.12), transparent 14%),
+      linear-gradient(180deg, var(--bg-1), var(--bg-2) 60%, #ffffff);
+    -webkit-font-smoothing:antialiased;
+    padding:36px;
+    color:var(--muted);
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+  }
+
+  /* page wrapper */
+  .wrap{
+    width:100%;
+    max-width:1200px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.95));
+    border-radius:20px;
+    border:1px solid var(--card-border);
+    box-shadow:var(--shadow);
+    padding:34px;
+  }
+
+  /* header (keeps nav style consistent) */
+  header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:22px;
+  }
+  .brand{
+    display:flex;
+    gap:14px;
+    align-items:center;
+  }
+  .brand .logo{
+    width:64px;height:64px;border-radius:14px;
+    display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(180deg,#e9dfff,var(--purple));
+    box-shadow:0 10px 28px rgba(130,80,255,0.10);
+  }
+  .brand .title{font-size:20px;font-weight:900;color:var(--purple-dark)}
+  nav a{
+    color:var(--purple-dark);
+    text-decoration:none;
+    font-weight:800;
+    padding:8px 12px;border-radius:10px;
+  }
+  nav a:hover{ background: rgba(150,100,255,0.06) }
+
+  /* grid layout */
+  .content-grid{
+    display:grid;
+    grid-template-columns: 1fr 420px;
+    gap:28px;
+    align-items:start;
+  }
+
+  /* main column (holds stacked bubbled boxes / columns inside) */
+  .main{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+  }
+
+  /* bubbled card base style */
+  .card{
+    background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(247,242,255,0.92));
+    border-radius:var(--radius);
+    padding:22px;
+    border:1px solid var(--card-border);
+    box-shadow: 0 14px 40px rgba(150,100,255,0.06);
+  }
+
+  /* two-column section inside a card */
+  .two-col{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:16px;
+    align-items:start;
+  }
+
+  h1,h2{
+    color:var(--purple-dark);
+    margin-bottom:10px;
+    font-weight:900;
+  }
+  h1{font-size:32px}
+  h2{font-size:20px}
+  p{ color:#3b2b54; line-height:1.65; font-size:15px; margin-bottom:10px; }
+
+  .feature-list{
+    margin-top:8px;
+    padding-left:18px;
+    color:#3b2b54;
+  }
+  .feature-list li{ margin-bottom:8px; font-size:15px; }
+
+  /* team grid (small cards) */
+  .team-grid{
+    display:flex;
+    gap:12px;
+    margin-top:8px;
+  }
+  .team-member{
+    background:var(--white);
+    border-radius:12px;
+    padding:12px;
+    border:1px solid rgba(150,100,255,0.06);
+    flex:1;
+    text-align:center;
+  }
+  .team-member h3{ color:var(--purple-dark); margin-bottom:6px; font-size:16px }
+  .team-member p{ font-size:14px; color:#4b3a63 }
+
+  /* right column: condensed boxes */
+  .aside{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+  }
+  .aside .box{ padding:18px; border-radius:14px; background:linear-gradient(180deg,#fff,#fbf7ff); border:1px solid rgba(150,100,255,0.06) }
+  .aside h4{ color:var(--purple-dark); margin-bottom:8px; font-weight:900 }
+  .aside p{ font-size:14px; color:#4b3a63; line-height:1.5 }
+
+  /* contact link */
+  .contact-mail{ color:var(--purple); font-weight:800; text-decoration:none }
+
+  /* spacing at bottom to ensure everything visible */
+  .bottom-pad{ height:48px }
+
+  /* responsiveness */
+  @media (max-width:1100px){
+    .content-grid{ grid-template-columns: 1fr; }
+    .aside{ order:2 }
+    .main{ order:1 }
+    .two-col{ grid-template-columns: 1fr; }
+    .team-grid{ flex-direction:column }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap" role="main">
+
+    <!-- header -->
+    <header>
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <!-- decorative square logo -->
+          <svg viewBox="0 0 48 48" width="36" height="36" xmlns="http://www.w3.org/2000/svg">
+            <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#e9dfff"/><stop offset="1" stop-color="#8a4bff"/></linearGradient></defs>
+            <rect width="48" height="48" rx="10" fill="url(#g)"/>
+            <circle cx="24" cy="24" r="8" fill="#fff"/>
+          </svg>
+        </div>
+        <div class="title">Signova</div>
+      </div>
+
+      <nav>
+        <a href="index.html">Home Page</a>
+        <a href="main.html">Converter</a>
+        <a href="about.html">About Us</a>
+      </nav>
+    </header>
+
+    <!-- content grid -->
+    <div class="content-grid">
+
+      <!-- main column -->
+      <div class="main">
+
+        <!-- header card -->
+        <div class="card">
+          <h1>About Signova</h1>
+          <p class="tagline" style="font-weight:800;color:var(--purple-dark)">Bridging hands & words — Sign to Text</p>
+        </div>
+
+        <!-- Vision card -->
+        <div class="card">
+          <h2>Our Vision</h2>
+          <p>
+            Communication is a basic human right — yet millions who rely on American Sign Language (ASL) still face 
+            challenges in being understood in everyday interactions. At Signova, we believe that technology should 
+            remove barriers, not create them. With compassion and innovation at its core, Signova aims to make 
+            communication more inclusive, respectful, and effortless.
+          </p>
+        </div>
+
+        <!-- What is Signova (two-column style inside a bubbled card) -->
+        <div class="card">
+          <div class="two-col">
+            <div>
+              <h2>What is Signova?</h2>
+              <p>
+                <strong>Signova</strong> is a smart, lightweight ASL alphabet recognition tool designed to convert 
+                <strong>single-letter ASL PNG images</strong> into readable text. You simply upload an image of a hand sign — 
+                and Signova instantly interprets the ASL alphabet gesture and converts it into the corresponding English letter.
+              </p>
+              <p>
+                Whether you're learning sign language, building assistive applications, or creating inclusive digital experiences,
+                Signova makes the process simple, fast, and accessible.
+              </p>
+            </div>
+
+            <div>
+              <h2 style="visibility:hidden;margin:0">Placeholder</h2>
+              <p style="font-size:14px;color:#6b577f;line-height:1.5">
+                <!-- intentionally kept empty to balance the two-column layout visually -->
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Why Signova Matters -->
+        <div class="card">
+          <h2>Why Signova Matters</h2>
+          <p>
+            Many people want to communicate respectfully with deaf and hard-of-hearing communities, but 
+            don't always know the alphabet or gestures. Signova bridges that gap by providing:
+          </p>
+
+          <ul class="feature-list">
+            <li><strong>Fast Interpretation:</strong> Converts ASL alphabet PNGs to text in seconds.</li>
+            <li><strong>Local Preview:</strong> Images stay on your device until you confirm the upload.</li>
+            <li><strong>Simple, Clean UI:</strong> Built for clarity, ease of use, and learning.</li>
+            <li><strong>Accessibility-First Design:</strong> Minimal, intuitive steps for all skill levels.</li>
+          </ul>
+
+          <p>Signova isn’t meant to replace real sign language communication. Instead, it empowers beginners, students, teachers, 
+            and developers by giving them a reliable tool to recognize and understand ASL alphabet signs quickly.</p>
+        </div>
+
+        <!-- How It Works -->
+        <div class="card">
+          <h2>How It Works</h2>
+          <p>
+            Our system uses a trained machine learning model that reads the shape, orientation, and structure 
+            of a single ASL hand gesture from a <strong>PNG</strong> image. The model then identifies the letter, and the website displays the result instantly in a clean text format. This makes Signova lightweight, accurate, and ideal for academic or real-world use.
+          </p>
+        </div>
+
+        <!-- Team -->
+        <div class="card">
+          <h2>Meet the Team</h2>
+          <div class="team-grid">
+            <div class="team-member">
+              <h3>Tanvi Haldaun</h3>
+              <p>Frontend Developer</p>
+            </div>
+            <div class="team-member">
+              <h3>Tanisha Gupta</h3>
+              <p>Backend & Machine Learning Engineer</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tech + Contact (two-column inside card) -->
+        <div class="card">
+          <div class="two-col">
+            <div>
+              <h2>Technologies Used</h2>
+              <p>Signova is built using clean, lightweight, and standard technologies:</p>
+              <ul class="feature-list">
+                <li>HTML</li>
+                <li>CSS (for styling, gradients, and components)</li>
+                <li>JavaScript (navigation + image preview + interactions)</li>
+              </ul>
+            </div>
+            <div>
+              <h2>Contact Us</h2>
+              <p>
+                Have a question, suggestion, or collaboration idea?<br>
+                Reach out at:
+                <br><a class="contact-mail" href="mailto:workwithme.tanvihaldaun@example.com">workwithme.tanvihaldaun@example.com</a>
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div> <!-- end main -->
+
+      <!-- right column (aside) condensed boxes for quick reference -->
+      <aside class="aside" aria-hidden="false">
+        <div class="box card">
+          <h4>Quick Summary</h4>
+          <p><strong>Signova</strong> converts single-letter ASL PNG images into English text quickly and privately. Simple upload → preview → convert.</p>
+        </div>
+
+        <div class="box card">
+          <h4>Usage Tip</h4>
+          <p>Use a clear PNG with a plain background and centered hand sign for best results.</p>
+        </div>
+
+        <div class="box card">
+          <h4>Privacy</h4>
+          <p>Images are previewed locally. No data is shared unless you explicitly send it to a backend.</p>
+        </div>
+      </aside>
+
+    </div> <!-- end content-grid -->
+
+    <div class="bottom-pad" aria-hidden="true"></div>
+  </div> <!-- end wrap -->
+</body>
+</html>

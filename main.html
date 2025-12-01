@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Signova — What This Website Offers</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --lavender:#f7f2ff;
+  --lavender-soft:#f4eaff;
+  --white:#ffffff;
+  --purple:#8a4bff;
+  --purple-dark:#6d2fe3;
+  --purple-soft:#b58bff;
+  --muted:#5f4b78;
+  --border:rgba(150,100,255,0.18);
+  --panel-shadow:0 18px 40px rgba(150,100,255,0.12);
+  --glow:0 8px 40px rgba(145,90,255,0.12);
+  font-family:"Inter",system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+}
+
+/* Reset */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;width:100%}
+body{
+  background:
+    radial-gradient(circle at 12% 18%, rgba(185,150,255,0.28), transparent 14%),
+    radial-gradient(circle at 88% 78%, rgba(165,130,255,0.22), transparent 12%),
+    linear-gradient(180deg, var(--lavender), var(--lavender-soft) 60%, #ffffff);
+  color:var(--muted);
+  -webkit-font-smoothing:antialiased;
+  display:flex;
+  justify-content:center;
+  padding:36px;
+}
+
+/* App container */
+.container{
+  width:100%;
+  max-width:1300px;
+  background:rgba(255,255,255,0.95);
+  border-radius:18px;
+  border:1px solid var(--border);
+  box-shadow:var(--panel-shadow);
+  overflow:hidden;
+}
+
+/* Header */
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:28px 44px;
+}
+.brand{
+  display:flex;
+  gap:14px;
+  align-items:center;
+}
+.brand .logo{
+  width:72px;height:72px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(180deg,var(--purple-soft),var(--purple));
+  box-shadow:0 10px 30px rgba(130,80,255,0.12);
+}
+.brand .title{font-size:20px;font-weight:900;color:var(--purple-dark)}
+nav.topnav{display:flex;gap:18px}
+nav.topnav a{ text-decoration:none;color:var(--purple-dark);font-weight:800;padding:8px 12px;border-radius:10px }
+nav.topnav a:hover{ background:rgba(150,100,255,0.07); box-shadow:var(--glow); transform:translateY(-2px) }
+
+/* Main content area */
+.main{
+  padding:44px;
+  display:flex;
+  gap:28px;
+  align-items:flex-start;
+}
+
+/* Left card (features) */
+.features-card{
+  flex:0 0 520px;
+  background:var(--white);
+  border-radius:14px;
+  padding:28px;
+  border:1px solid rgba(150,100,255,0.06);
+  box-shadow:0 12px 40px rgba(150,100,255,0.04);
+  margin-right:18px;
+}
+.features-card h2{
+  color:var(--purple-dark);
+  font-size:28px;
+  margin-bottom:20px;
+  text-shadow:0 6px 18px rgba(140,80,255,0.04);
+}
+.feature-row{
+  display:flex;
+  gap:16px;
+  align-items:flex-start;
+  margin-bottom:18px;
+}
+.num-bubble{
+  width:64px;height:64px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(180deg, rgba(180,140,255,0.14), #fff);
+  box-shadow:0 12px 28px rgba(150,100,255,0.06);
+  font-weight:900;color:var(--purple-dark);
+  font-size:20px;
+}
+.feature-text{ flex:1; }
+.feature-text strong{ display:block; font-weight:900; color:#241036; margin-bottom:6px; }
+
+/* CTA */
+.cta-wrap{
+  margin-top:22px;
+}
+.cta{
+  display:inline-flex;
+  padding:14px 22px;
+  border-radius:14px;
+  background:linear-gradient(90deg,var(--purple),var(--purple-soft));
+  color:white;font-weight:900;
+  box-shadow:0 18px 50px rgba(145,90,255,0.14);
+  text-decoration:none;
+}
+
+/* Right large empty space (for big illustration in screenshot) */
+.side-visual{
+  flex:1;
+  background:linear-gradient(180deg, rgba(140,80,255,0.02), rgba(180,140,255,0.02));
+  border-radius:14px;
+  padding:28px;
+  min-height:360px;
+  border:1px solid rgba(150,100,255,0.02);
+}
+
+/* responsive */
+@media (max-width:1000px){
+  .main{flex-direction:column;padding:28px}
+  .features-card{width:100%;flex:unset}
+  .side-visual{width:100%}
+}
+</style>
+</head>
+
+<body>
+  <div class="container">
+
+    <!-- HEADER -->
+    <div class="header">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <svg viewBox="0 0 48 48" width="40" height="40">
+            <defs><linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="#d6c0ff"/><stop offset="1" stop-color="#9c6bff"/></linearGradient></defs>
+            <rect width="48" height="48" rx="12" fill="url(#g1)"/>
+            <circle cx="24" cy="24" r="10" fill="#fff" opacity="0.95"/>
+          </svg>
+        </div>
+        <div class="title">Signova</div>
+      </div>
+
+      <nav class="topnav" role="navigation" aria-label="Main">
+        <a href="index.html">Home</a>
+        <a href="converter.html">Converter</a>
+        <a href="about.html">About Us</a>
+      </nav>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+
+      <!-- FEATURES CARD (left) -->
+      <div class="features-card" role="region" aria-labelledby="features-heading">
+        <h2 id="features-heading">What This Website Offers</h2>
+
+        <div class="feature-row">
+          <div class="num-bubble">1</div>
+          <div class="feature-text">
+            <strong>Upload & Preview</strong>
+            <div>Upload images and view them in clean, high clarity.</div>
+          </div>
+        </div>
+
+        <div class="feature-row">
+          <div class="num-bubble">2</div>
+          <div class="feature-text">
+            <strong>Refine Inputs</strong>
+            <div>Re-upload or delete files effortlessly to perfect your sample.</div>
+          </div>
+        </div>
+
+        <div class="feature-row">
+          <div class="num-bubble">3</div>
+          <div class="feature-text">
+            <strong>Fast Interpretation</strong>
+            <div>Once connected to the model, signs convert to text instantly.</div>
+          </div>
+        </div>
+
+        <div class="cta-wrap">
+          <a class="cta" href="converter.html">Convert Sign Language →</a>
+        </div>
+      </div>
+
+      <!-- SIDE VISUAL (right) — you can replace with an image/illustration later -->
+      <div class="side-visual" aria-hidden="true">
+        <!-- Placeholder — add an illustration, screenshot or a card here if you want -->
+      </div>
+
+    </div>
+
+  </div>
+</body>
+</html>

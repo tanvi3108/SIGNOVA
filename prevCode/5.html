@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Signova — Bridging hands & words</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-1: #f6f2ff;         /* very pale lavender */
+    --bg-2: #efe7ff;         /* soft lavender */
+    --violet-1: #6f2bd6;     /* stronger violet */
+    --violet-2: #8a4bff;     /* mid violet */
+    --violet-3: #b688ff;     /* bright lilac */
+    --muted: #5e4a73;
+    --card: #ffffff;
+    --glass: rgba(255,255,255,0.6);
+    --radius: 18px;
+    --shadow-soft: 0 14px 40px rgba(118,64,204,0.12);
+    --shadow-glow: 0 8px 40px rgba(138,75,255,0.10);
+    --max-width: 1200px;
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  }
+
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg-1),var(--bg-2));color:var(--muted);-webkit-font-smoothing:antialiased}
+  a { color: inherit; text-decoration: none; }
+
+  /* App container: keep equal margins/padding around */
+  .wrap {
+    max-width: var(--max-width);
+    margin: 36px auto;
+    padding: 28px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(250,244,255,0.9));
+    border-radius: 18px;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid rgba(138,75,255,0.06);
+  }
+
+  /* Header */
+  header {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+  }
+
+  .brand {
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+
+  .brand .logo {
+    width:58px;height:58px;flex:0 0 58px;border-radius:12px;
+    display:flex;align-items:center;justify-content:center;
+    background: linear-gradient(180deg,var(--violet-3),var(--violet-2));
+    box-shadow: 0 10px 30px rgba(138,75,255,0.14);
+  }
+  .brand .logo svg { width:36px;height:36px;filter: drop-shadow(0 6px 18px rgba(138,75,255,0.12)); }
+
+  .brand .title {
+    display:flex;flex-direction:column;line-height:1;
+  }
+  .brand .title .name { font-weight:900;color:var(--violet-1);font-size:20px;letter-spacing:-0.2px; }
+  .brand .title .tag { font-size:12px;color:var(--muted);margin-top:4px; }
+
+  /* Nav top-right */
+  nav.topnav {
+    display:flex;
+    gap:14px;
+    align-items:center;
+  }
+  nav.topnav a {
+    padding:10px 14px;
+    border-radius:12px;
+    font-weight:700;
+    color:var(--violet-2);
+    transition:all .16s ease;
+  }
+  nav.topnav a:hover, nav.topnav a:focus {
+    background: rgba(138,75,255,0.06);
+    box-shadow: var(--shadow-glow);
+    transform:translateY(-2px);
+    outline: none;
+  }
+
+  /* Hero */
+  .hero {
+    margin-top:28px;
+    display:grid;
+    grid-template-columns: 1fr 460px;
+    gap:36px;
+    align-items:center;
+  }
+
+  .hero-left {
+    padding:28px;
+  }
+
+  .hero-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(250,244,255,0.95));
+    border-radius: 14px;
+    padding: 26px;
+    box-shadow: var(--shadow-glow);
+    border: 1px solid rgba(138,75,255,0.06);
+  }
+
+  .hero-title {
+    font-size:40px;
+    margin:0 0 12px 0;
+    color:var(--violet-1);
+    line-height:1.02;
+    font-weight:900;
+  }
+
+  .hero-subtle {
+    font-size:15px;
+    color:#57466d;
+    margin-bottom:18px;
+  }
+
+  .hero-desc {
+    margin-top:10px;color:var(--muted);font-size:15px;line-height:1.55;
+  }
+
+  /* right column big decorative area (logo + tagline) */
+  .hero-right {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .hero-visual {
+    width:100%;
+    max-width:420px;
+    border-radius:16px;
+    padding:28px;
+    background: linear-gradient(180deg, rgba(138,75,255,0.08), rgba(165,106,255,0.03));
+    box-shadow: 0 20px 50px rgba(131,74,255,0.08);
+    border: 1px solid rgba(138,75,255,0.08);
+    text-align:center;
+  }
+
+  .hero-visual .biglogo {
+    width:220px;height:220px;margin:0 auto;border-radius:20px;padding:18px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(234,214,255,0.85));
+    display:flex;align-items:center;justify-content:center;
+    box-shadow: 0 16px 40px rgba(120,60,220,0.08);
+  }
+
+  .hero-visual svg { width:120px;height:120px; }
+
+  /* CTAs (buttons) */
+  .cta-row { margin-top:18px; display:flex; gap:12px; align-items:center; }
+  .btn {
+    padding:12px 18px;border-radius:12px;font-weight:800;border:0;cursor:pointer;
+    transition: transform .14s ease, box-shadow .14s ease;
+  }
+  .btn.primary {
+    background: linear-gradient(90deg,var(--violet-2),var(--violet-3));
+    color:white; box-shadow: 0 12px 28px rgba(138,75,255,0.14);
+  }
+  .btn.ghost {
+    background: transparent;
+    color:var(--violet-2);
+    border: 1px solid rgba(138,75,255,0.08);
+  }
+  .btn:hover { transform: translateY(-3px); }
+
+  /* footer-ish quick features row */
+  .features {
+    display:flex;
+    gap:12px;
+    margin-top:28px;
+    flex-wrap:wrap;
+  }
+  .feature {
+    background: linear-gradient(180deg, rgba(255,255,255,0.97), rgba(250,244,255,0.95));
+    padding:12px 14px;border-radius:12px;border:1px solid rgba(138,75,255,0.06);
+    display:flex;gap:12px;align-items:center;min-width:160px;box-shadow:0 8px 26px rgba(130,70,255,0.04);
+  }
+  .ficon { width:36px;height:36px;background:linear-gradient(180deg,var(--violet-3),var(--violet-2));border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-weight:900; }
+
+  /* responsive adjustments */
+  @media (max-width:980px){
+    .hero { grid-template-columns: 1fr; padding:8px; gap:20px; }
+    .hero-right { order:-1 } /* logo first on small screens */
+    .wrap { margin:20px; padding:20px; }
+    .hero-title { font-size:28px; }
+    .hero-visual { max-width:320px; }
+  }
+
+</style>
+</head>
+<body>
+  <div class="wrap" role="document">
+
+    <!-- header -->
+    <header>
+      <div class="brand" role="banner">
+        <div class="logo" aria-hidden="true">
+          <!-- small top-left logo -->
+          <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="#b688ff"/><stop offset="1" stop-color="#8a4bff"/></linearGradient>
+            </defs>
+            <rect x="0" y="0" width="48" height="48" rx="10" fill="url(#g1)"/>
+            <path d="M14 22c3-7 10-7 13-3 2 3-2 8-6 9-6 2-9-4-7-6z" fill="#ffffff" opacity="0.95"/>
+          </svg>
+        </div>
+
+        <div class="title">
+          <div class="name">Signova</div>
+          <div class="tag">Bridging hands & words — Sign to Text</div>
+        </div>
+      </div>
+
+      <nav class="topnav" role="navigation" aria-label="Main navigation">
+        <a href="index.html" title="Home page">Home Page</a>
+        <a href="about.html" title="About us">About Us</a>
+        <a href="converter.html" title="Converter">Converter</a>
+        <a href="contact.html" title="Contact us">Contact Us</a>
+      </nav>
+    </header>
+
+    <!-- hero -->
+    <main class="hero" role="main" aria-labelledby="hero-heading">
+      <div class="hero-left">
+        <div class="hero-card">
+          <h1 id="hero-heading" class="hero-title">Signova</h1>
+          <div class="hero-subtle">Bridging hands & words — Sign to Text</div>
+
+          <!-- professional one-liner about the project -->
+          <p class="hero-desc">
+            Signova is an ASL alphabet converter built to read single-letter PNG images of American Sign Language and return clear, readable text — accurate, fast, and easy to use.
+          </p>
+
+          <div class="cta-row">
+            <div class="cta-row">
+              <a class="btn primary" href="converter.html" role="button">Try the Converter</a>
+              <a class="btn ghost" href="about.html" role="button">About the Project</a>
+            </div>
+          </div>
+
+          <div class="features" aria-hidden="false">
+            <div class="feature">
+              <div class="ficon">A</div>
+              <div>
+                <div style="font-weight:800;color:var(--violet-1)">ASL Alphabet</div>
+                <div style="font-size:13px;color:#6b5785">Single-letter PNG input</div>
+              </div>
+            </div>
+
+            <div class="feature">
+              <div class="ficon">⚡</div>
+              <div>
+                <div style="font-weight:800;color:var(--violet-1)">Fast</div>
+                <div style="font-size:13px;color:#6b5785">Results in seconds</div>
+              </div>
+            </div>
+
+            <div class="feature">
+              <div class="ficon">🔒</div>
+              <div>
+                <div style="font-weight:800;color:var(--violet-1)">Private</div>
+                <div style="font-size:13px;color:#6b5785">Local preview before send</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <aside class="hero-right" aria-hidden="false">
+        <div class="hero-visual" role="img" aria-label="Decorative signova logo and visual">
+          <div class="biglogo" aria-hidden="true">
+            <!-- large decorative svg logo -->
+            <svg viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <defs>
+                <linearGradient id="lgA" x1="0" x2="1"><stop offset="0" stop-color="#b788ff"/><stop offset="1" stop-color="#8a4bff"/></linearGradient>
+              </defs>
+
+              <rect x="0" y="0" width="220" height="220" rx="28" fill="#fff" opacity="0.96"/>
+              <circle cx="110" cy="86" r="56" fill="url(#lgA)" opacity="0.14"></circle>
+
+              <!-- stylized hand + speech -->
+              <path d="M64 110 C60 92 84 78 100 90 L116 106 L132 86 C142 76 162 82 160 98 L146 138 C138 156 120 166 102 160 L76 148 C68 144 60 132 64 116 Z" fill="url(#lgA)" opacity="0.9"/>
+              <circle cx="88" cy="122" r="6" fill="#8a4bff"/>
+              <circle cx="116" cy="122" r="6" fill="#b788ff"/>
+            </svg>
+          </div>
+
+          <div style="margin-top:18px;color:var(--muted);font-size:14px;line-height:1.45">
+            Upload a PNG of an ASL letter and receive the corresponding text. The UI is built to be simple — upload, preview, convert.
+          </div>
+        </div>
+      </aside>
+    </main>
+
+  </div>
+</body>
+</html>

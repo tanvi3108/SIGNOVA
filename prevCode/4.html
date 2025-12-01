@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Signova — Where Every Gesture Finds Its Voice</title>
+
+<style>
+:root{
+  --lavender-bg:#f7f2ff;
+  --lavender-soft:#f4eaff;
+  --violet:#8a4bff;
+  --violet-bright:#a56aff;
+  --violet-dark:#6921d9;
+  --text-dark:#2b223b;
+  --text-muted:#6b5c80;
+  --shadow-glow:0 0 32px rgba(157,122,255,0.26);
+  --shadow-soft:0 12px 36px rgba(113,66,195,0.09);
+  --outline-gradient:linear-gradient(90deg,var(--violet),var(--violet-bright));
+  --max-width:1350px;
+  --radius:18px;
+  font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;width:100%}
+body{
+  background:linear-gradient(180deg,var(--lavender-bg), #f1e7ff 40%);
+  -webkit-font-smoothing:antialiased;
+  color:var(--text-dark);
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+}
+
+.app{
+  width:100%;
+  min-height:100vh;
+  max-width:var(--max-width);
+  background:linear-gradient(180deg,#fff,var(--lavender-soft));
+}
+
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:22px 44px;
+}
+
+.logo{display:flex;align-items:center;gap:14px}
+.logo svg{width:56px;height:56px}
+.brand-title{font-weight:900;font-size:20px}
+.brand-tag{color:var(--text-muted);font-size:13px}
+
+nav a{
+  margin-left:16px;
+  text-decoration:none;
+  color:var(--violet-dark);
+  font-weight:800;
+  padding:10px 14px;
+  border-radius:12px;
+  transition:all .16s ease;
+}
+nav a:hover{background:rgba(170,110,255,0.10);box-shadow:var(--shadow-glow);transform:translateY(-2px)}
+
+.main-area{
+  min-height:calc(100vh - 88px);
+  padding:40px 64px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+
+/* page layers */
+.page{
+  width:100%;
+  max-width:1100px;
+  min-height:calc(100vh - 88px);
+  padding:48px;
+  background:linear-gradient(145deg,#ffffff,#f3e7ff);
+  border-radius:18px;
+  border:1px solid rgba(158,116,255,0.12);
+  box-shadow:0 10px 40px rgba(150,100,255,0.06);
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  transition:opacity .35s ease, transform .35s ease, visibility .35s ease;
+}
+
+.page.hidden{opacity:0;visibility:hidden;transform:translateX(-50%) translateY(8px) scale(.995);pointer-events:none}
+.page.visible{opacity:1;visibility:visible;pointer-events:auto}
+
+.page::before{
+  content:"";
+  position:absolute;
+  top:-80px;right:-80px;
+  width:240px;height:240px;
+  background:radial-gradient(circle, rgba(180,110,255,0.28), transparent 60%);
+  filter:blur(40px);
+}
+.page::after{
+  content:"";
+  position:absolute;
+  bottom:-80px;left:-80px;
+  width:260px;height:260px;
+  background:radial-gradient(circle, rgba(120,70,255,0.18), transparent 60%);
+  filter:blur(40px);
+}
+
+/* BUTTONS */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:12px 18px;
+  font-weight:900;
+  border-radius:12px;
+  cursor:pointer;
+  border:0;
+  transition:.20s;
+  position:relative;
+}
+
+.btn.primary{
+  background:linear-gradient(90deg,var(--violet),var(--violet-bright));
+  color:#fff;
+  box-shadow:0 12px 34px rgba(138,75,255,0.14);
+}
+.btn.primary:hover{transform:translateY(-4px);box-shadow:0 18px 60px rgba(165,106,255,0.18)}
+
+.btn.outline::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  padding:2px;
+  border-radius:12px;
+  background:var(--outline-gradient);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;
+  mask-composite:exclude;
+  z-index:-1;
+}
+.btn.outline{color:var(--violet-dark)}
+.btn.outline:hover{background:rgba(138,75,255,0.06)}
+
+.btn.ghost{
+  background:transparent;
+  color:var(--violet-dark);
+  font-weight:800;
+}
+
+/* cards */
+.card{
+  width:100%;
+  max-width:920px;
+  background:#fff;
+  border-radius:14px;
+  padding:24px;
+  border:1px solid rgba(160,120,255,0.12);
+  box-shadow:var(--shadow-soft);
+}
+
+.section-title{font-size:22px;font-weight:900;color:var(--violet-dark);margin-bottom:14px}
+.offer-item{display:flex;gap:14px;margin-bottom:14px}
+.num{
+  width:52px;height:52px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:12px;
+  background:linear-gradient(180deg,#f0e4ff,#fff);
+  font-weight:900;color:var(--violet-dark);
+  box-shadow:var(--shadow-glow);
+}
+
+/* uploader */
+.uploader{
+  border:2px dashed rgba(150,100,255,0.22);
+  padding:28px 36px;
+  border-radius:14px;
+  background:linear-gradient(180deg,#faf5ff,#fff);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  cursor:pointer;
+  transition:.18s;
+}
+.uploader:hover{border-color:var(--violet);box-shadow:var(--shadow-glow);transform:translateY(-3px)}
+
+.upload-text{font-weight:800;color:#2b223b;font-size:17px}
+
+.preview-img,.preview-video{
+  width:100%;
+  max-height:360px;
+  border-radius:12px;
+  margin-top:18px;
+  box-shadow:var(--shadow-glow);
+}
+
+/* HOME PAGE — UPDATED LOGO + MORE VIOLET */
+.home-logo{
+  width:260px;
+  height:260px;
+  margin:0 auto 25px auto;
+  padding:22px;
+  border-radius:30px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(180deg,#eadcff,#d9c2ff);
+  box-shadow:0 22px 45px rgba(130,70,255,0.22),0 0 65px rgba(170,120,255,0.26);
+}
+
+.hero-title{
+  font-size:42px;
+  font-weight:900;
+  color:#6921d9;
+  margin-top:10px;
+}
+
+.hero-sub{
+  margin-top:14px;
+  font-size:17px;
+  line-height:1.55;
+  color:#5c4a78;
+  max-width:720px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.top-actions{
+  margin-top:28px;
+  display:flex;
+  gap:14px;
+  justify-content:center;
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <svg viewBox="0 0 120 120"><defs><radialGradient id="hdr"><stop offset="0%" stop-color="#e6d6ff"/><stop offset="100%" stop-color="#8a4bff"/></radialGradient></defs>
+      <circle cx="60" cy="60" r="50" fill="url(#hdr)" opacity="0.45"/></svg>
+    <div>
+      <div class="brand-title">Signova</div>
+      <div class="brand-tag">Bridging hands & words — Sign to Text</div>
+    </div>
+  </div>
+
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#main">Main</a>
+    <a href="#converter">Converter</a>
+  </nav>
+</header>
+
+<div class="main-area">
+<!-- HOME PAGE -->
+<section id="page-home" class="page visible">
+  <div style="text-align:center;max-width:900px;margin:auto;padding:40px;">
+
+    <!-- BIG BEAUTIFUL LOGO -->
+    <div class="home-logo">
+      <svg viewBox="0 0 200 200">
+        <defs>
+          <linearGradient id="vioGlow" x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0%" stop-color="#b788ff"/>
+            <stop offset="100%" stop-color="#8a4bff"/>
+          </linearGradient>
+        </defs>
+
+        <circle cx="100" cy="100" r="90" fill="#ffffff" opacity="0.95"/>
+        <circle cx="100" cy="100" r="90" fill="url(#vioGlow)" opacity="0.18"/>
+
+        <!-- Minimal hand -->
+        <path d="M60 90 C60 70 80 60 95 75 L110 90 L125 70 C135 58 155 68 150 86 L138 122 C132 140 115 150 98 144 L70 134 C62 131 55 120 58 106 Z"
+          fill="url(#vioGlow)" opacity="0.75"/>
+
+        <circle cx="85" cy="105" r="5" fill="#8a4bff"/>
+        <circle cx="105" cy="105" r="5" fill="#b788ff"/>
+      </svg>
+    </div>
+
+    <h1 class="hero-title">Where Every Gesture Finds Its Voice</h1>
+
+    <p class="hero-sub">
+      A glowing, intelligent interface designed to read visual hand gestures  
+      and transform them into clean, meaningful text — beautifully and effortlessly.
+    </p>
+
+    <div class="top-actions">
+      <button class="btn primary" onclick="showPage('main',true)">Get Started →</button>
+      <button class="btn outline" onclick="quickDemo()">Quick demo</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- MAIN PAGE -->
+<section id="page-main" class="page hidden">
+  <div class="card">
+    <h2 class="section-title">What This Website Offers</h2>
+
+    <div class="offer-item">
+      <div class="num">1</div>
+      <div><strong>Upload & Preview</strong><br>Upload gesture images or videos and preview instantly.</div>
+    </div>
+
+    <div class="offer-item">
+      <div class="num">2</div>
+      <div><strong>Refine Inputs</strong><br>Re-upload or remove files to improve clarity.</div>
+    </div>
+
+    <div class="offer-item">
+      <div class="num">3</div>
+      <div><strong>Fast Interpretation</strong><br>Gestures turn into text once connected to the model.</div>
+    </div>
+
+    <div style="display:flex;gap:12px;margin-top:16px;">
+      <button class="btn outline" onclick="showPage('converter',true)">Convert Sign Language →</button>
+      <button class="btn ghost" onclick="showPage('home',true)">Back to Home</button>
+    </div>
+  </div>
+</section>
+
+<!-- CONVERTER PAGE -->
+<section id="page-converter" class="page hidden">
+  <div style="width:100%;max-width:900px;">
+    <div class="card">
+      <h3 style="margin-bottom:10px;">Upload Image</h3>
+
+      <label class="uploader" id="labelImage">
+        <input type="file" accept="image/*" id="imageInput" hidden>
+        <div class="upload-text">Click here to upload image</div>
+      </label>
+
+      <div id="imageControls" class="hidden">
+        <img id="imagePreview" class="preview-img">
+        <div style="display:flex;gap:12px;margin-top:12px;">
+          <button class="btn outline" id="reuploadImageBtn">Reupload</button>
+          <button class="btn ghost" id="deleteImageBtn">Delete</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-bottom:10px;">Upload Video</h3>
+
+      <label class="uploader" id="labelVideo">
+        <input type="file" accept="video/*" id="videoInput" hidden>
+        <div class="upload-text">Click here to upload video</div>
+      </label>
+
+      <div id="videoControls" class="hidden">
+        <video id="videoPreview" class="preview-video" controls></video>
+        <div style="display:flex;gap:12px;margin-top:12px;">
+          <button class="btn outline" id="reuploadVideoBtn">Reupload</button>
+          <button class="btn ghost" id="deleteVideoBtn">Delete</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:12px;margin-top:18px;">
+      <button class="btn ghost" onclick="showPage('main',true)">Back to Main</button>
+      <button class="btn primary" id="sendToModel">Send to Model</button>
+    </div>
+  </div>
+</section>
+
+</div> <!-- main area -->
+</div> <!-- app -->
+
+<script>
+/* PAGE ROUTER */
+function showPage(page, push){
+  document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
+  const target=document.getElementById('page-'+page);
+  target.classList.remove('hidden');
+
+  if(push) history.pushState({},'', '#'+page);
+}
+
+window.addEventListener('load',()=>{
+  const h=location.hash.replace('#','')||'home';
+  showPage(h,false);
+});
+window.addEventListener('popstate',()=>{
+  const h=location.hash.replace('#','')||'home';
+  showPage(h,false);
+});
+
+/* DEMO */
+function quickDemo(){
+  alert("Demo: backend model will process gestures once connected.");
+}
+
+/* IMAGE UPLOAD */
+const imageInput=document.getElementById('imageInput');
+const imagePreview=document.getElementById('imagePreview');
+const imageControls=document.getElementById('imageControls');
+document.getElementById('labelImage').onclick=()=>imageInput.click();
+imageInput.onchange=()=>{
+  let f=imageInput.files[0];
+  if(!f) return;
+  imagePrev

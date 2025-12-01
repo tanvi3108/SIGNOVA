@@ -7,10 +7,9 @@
 
 <style>
 /* ---------------------------------------------------
-   VIOLET–LAVENDER GLOW THEME (Bright + Soft + Aesthetic)
+   VIOLET–LAVENDER GLOW THEME + FULL SCREEN + FIXED UPLOAD BOXES
 ------------------------------------------------------*/
 
-/* COLOR PALETTE */
 :root {
   --lavender-bg: #f7f2ff;
   --lavender-soft: #f4eaff;
@@ -24,36 +23,41 @@
   --radius: 18px;
   --shadow-soft: 0 18px 40px rgba(113, 66, 195, 0.12);
   --shadow-glow: 0 0 22px rgba(157, 122, 255, 0.35);
-  --max-width: 1150px;
+  --max-width: 1350px;
   font-family: "Inter", system-ui, sans-serif;
 }
 
 /* RESET */
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  padding: 30px;
-  background: linear-gradient(180deg, var(--lavender-bg), #f1e7ff 40%);
-  color: var(--text-dark);
-  display: flex;
-  justify-content: center;
-  -webkit-font-smoothing: antialiased;
+* { box-sizing: border-box; margin:0; padding:0; }
+html, body {
+  height: 100%;
+  width: 100%;
 }
 
-/* APP WRAPPER */
+/* FULL SCREEN BACKGROUND */
+body {
+  background: linear-gradient(180deg, var(--lavender-bg), #f1e7ff 40%);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* FULL WIDTH–HEIGHT APP WRAPPER */
 .app {
   width: 100%;
+  min-height: 100vh;
   max-width: var(--max-width);
   background: linear-gradient(180deg, white, var(--lavender-soft));
-  border-radius: 22px;
-  box-shadow: var(--shadow-soft);
-  border: 1px solid rgba(149, 95, 255, 0.15);
-  overflow: hidden;
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+  padding-bottom: 40px;
 }
 
 /* HEADER */
 header {
-  padding: 20px 32px;
+  width: 100%;
+  padding: 24px 40px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -65,29 +69,25 @@ header {
   gap: 14px;
 }
 
-.logo svg {
-  width: 60px;
-  height: 60px;
-}
+.logo svg { width: 60px; height: 60px; }
 
 .brand-title {
   font-size: 22px;
   font-weight: 900;
-  letter-spacing: -0.5px;
 }
 
 .brand-tag {
-  color: var(--text-muted);
   font-size: 13px;
+  color: var(--text-muted);
 }
 
 /* NAV */
 nav a {
-  margin-left: 16px;
+  margin-left: 18px;
   text-decoration: none;
   font-weight: 800;
   color: var(--violet-dark);
-  padding: 10px 14px;
+  padding: 10px 16px;
   border-radius: 12px;
   transition: 0.2s;
 }
@@ -98,31 +98,32 @@ nav a:hover {
   transform: translateY(-2px);
 }
 
-/* CONTENT WRAPPER */
+/* CONTENT */
 .content {
-  padding: 40px;
+  padding: 40px 60px;
 }
 
 /* ------------------ HOMEPAGE CENTER GLOW HERO ------------------ */
 
 .hero-center {
   text-align: center;
-  padding: 60px 50px;
+  padding: 80px 60px;
   background: linear-gradient(145deg, #ffffff, #f3e7ff);
   border-radius: 22px;
   border: 1px solid rgba(158, 116, 255, 0.18);
   box-shadow: 0 0 35px rgba(170, 120, 255, 0.25);
   position: relative;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
-/* floating glow orbs */
 .hero-center::before {
   content: "";
   position: absolute;
   top: -80px;
   right: -60px;
-  width: 220px;
-  height: 220px;
+  width: 240px;
+  height: 240px;
   background: radial-gradient(circle, rgba(180,110,255,0.28), transparent 60%);
   filter: blur(40px);
 }
@@ -132,41 +133,39 @@ nav a:hover {
   position: absolute;
   bottom: -80px;
   left: -60px;
-  width: 240px;
-  height: 240px;
+  width: 260px;
+  height: 260px;
   background: radial-gradient(circle, rgba(120,70,255,0.22), transparent 60%);
   filter: blur(40px);
 }
 
-/* HERO TEXT */
 .hero-title {
-  font-size: 38px;
+  font-size: 42px;
   font-weight: 900;
   color: var(--violet-dark);
-  margin-top: 14px;
 }
 
 .hero-sub {
-  margin-top: 16px;
-  color: var(--text-muted);
+  margin-top: 18px;
   max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
+  color: var(--text-muted);
+  font-size: 17px;
+  line-height: 1.4;
 }
 
-/* BUTTONS */
+/* BUTTON */
 .btn {
   padding: 14px 24px;
   font-weight: 900;
-  font-size: 16px;
   border-radius: 14px;
-  border: none;
   cursor: pointer;
-  transition: 0.22s;
+  border: none;
+  margin-top: 26px;
+  transition: 0.2s;
 }
 
 .btn-primary {
-  margin-top: 24px;
   background: linear-gradient(90deg, var(--violet), var(--violet-bright));
   color: white;
   box-shadow: var(--shadow-glow);
@@ -174,38 +173,38 @@ nav a:hover {
 
 .btn-primary:hover {
   transform: translateY(-4px);
-  box-shadow: 0 0 30px rgba(175, 140, 255, 0.55);
+  box-shadow: 0 0 30px rgba(170, 120, 255, 0.55);
 }
 
-/* ------------------ MAIN PAGE ------------------ */
-
+/* SECTIONS */
 .hide { display: none; }
 
-.section-title {
-  font-size: 22px;
-  font-weight: 900;
-  margin-bottom: 10px;
-  color: var(--violet-dark);
+/* MAIN PAGE CARD */
+.card {
+  background: #fff;
+  padding: 26px;
+  border-radius: 18px;
+  margin-bottom: 26px;
+  border: 1px solid rgba(160,120,255,0.18);
+  box-shadow: 0 0 20px rgba(160,120,255,0.15);
 }
 
-.card {
-  padding: 22px;
-  border-radius: 20px;
-  background: white;
-  border: 1px solid rgba(160, 120, 255, 0.15);
-  box-shadow: 0 0 18px rgba(150, 95, 255, 0.12);
-  margin-bottom: 25px;
+.section-title {
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--violet-dark);
+  margin-bottom: 14px;
 }
 
 .offer-item {
   display: flex;
-  gap: 14px;
-  margin-bottom: 16px;
+  gap: 16px;
+  margin-bottom: 18px;
 }
 
 .num {
-  width: 48px;
-  height: 48px;
+  width: 52px;
+  height: 52px;
   border-radius: 12px;
   background: linear-gradient(180deg, #f0e4ff, #ffffff);
   display: flex;
@@ -216,31 +215,40 @@ nav a:hover {
   box-shadow: var(--shadow-glow);
 }
 
-/* ------------------ CONVERTER PAGE ------------------ */
+/* ------------------ FIXED UPLOAD BOXES ------------------ */
 
 .uploader {
-  border: 2px dashed rgba(150, 100, 255, 0.25);
-  padding: 22px;
-  border-radius: 18px;
+  border: 2px dashed rgba(150,100,255,0.25);
+  padding: 30px 34px;          /* FIXED: more horizontal padding */
   text-align: center;
-  background: linear-gradient(180deg, #faf5ff, #ffffff);
-  transition: 0.2s;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #faf5ff, white);
+  cursor: pointer;
+
+  /* CENTER CONTENT & PREVENT CUTTING */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
 }
 
-.uploader:hover {
-  border-color: var(--violet);
-  box-shadow: var(--shadow-glow);
+.upload-text {
+  font-size: 17px;
+  font-weight: 700;
+  color: #2b223b;
+  display: block;
+  margin-top: 8px;
 }
 
+/* PREVIEW */
 .preview-img, .preview-video {
   width: 100%;
   max-height: 330px;
   border-radius: 14px;
   box-shadow: var(--shadow-glow);
-}
-
-.action-row button {
-  margin-right: 8px;
+  margin-top: 20px;
 }
 </style>
 </head>
@@ -275,56 +283,50 @@ nav a:hover {
     </nav>
   </header>
 
+  <!-- CONTENT -->
   <div class="content">
 
     <!-- HOME SECTION -->
     <section id="homeSection">
       <div class="hero-center">
-        <div class="eyebrow"></div>
-        <div class="hero-title">Sign Language to Text Conversion</div>
+        <div class="hero-title">Where Every Gesture Finds Its Voice</div>
+
         <div class="hero-sub">
-          A smooth, glowing, aesthetic interface designed to help read and interpret sign language inputs.
+          An intelligent, glowing interface powered by gesture recognition — built to translate visual hand signs into clear, meaningful text with smooth accuracy.
         </div>
 
         <button class="btn btn-primary" id="gotoMainBtn">Get Started →</button>
       </div>
     </section>
 
-    <!-- MAIN PAGE -->
+    <!-- MAIN SECTION -->
     <section id="mainSection" class="hide">
-
       <div class="card">
         <div class="section-title">What This Website Offers</div>
 
         <div class="offer-item">
           <div class="num">1</div>
-          <div>
-            <strong>Upload & Preview</strong><br>
-            Upload sign images or short sign videos and preview instantly.
-          </div>
+          <div><strong>Upload & Preview</strong><br>
+          Upload images or gesture videos and view them in clean, high clarity.</div>
         </div>
 
         <div class="offer-item">
           <div class="num">2</div>
-          <div>
-            <strong>Manage Your Uploads</strong><br>
-            Delete or re-upload files at any time.
-          </div>
+          <div><strong>Refine Inputs</strong><br>
+          Re-upload or delete files effortlessly to perfect your sample.</div>
         </div>
 
         <div class="offer-item">
           <div class="num">3</div>
-          <div>
-            <strong>Convert Easily</strong><br>
-            Once backend is connected, results will appear clearly.
-          </div>
+          <div><strong>Fast Interpretation</strong><br>
+          Once connected to the model, signs convert to text instantly.</div>
         </div>
 
         <button class="btn btn-primary" id="gotoConverterBtn">Convert Sign Language →</button>
       </div>
     </section>
 
-    <!-- CONVERTER PAGE -->
+    <!-- CONVERTER SECTION -->
     <section id="converterSection" class="hide">
       <div class="section-title">Convert Sign Language</div>
 
@@ -332,15 +334,13 @@ nav a:hover {
         <h3>Upload Image</h3>
         <label class="uploader">
           <input type="file" accept="image/*" id="imageInput" hidden>
-          <div id="imagePlaceholder">Click here to upload image</div>
+          <div id="imagePlaceholder" class="upload-text">Click here to upload image</div>
         </label>
 
         <div id="imageControls" class="hide">
           <img id="imagePreview" class="preview-img"/>
-          <div class="action-row">
-            <button class="btn btn-primary" id="reuploadImageBtn">Reupload</button>
-            <button class="btn" style="background:#ffdde6;color:#5b2330" id="deleteImageBtn">Delete</button>
-          </div>
+          <button class="btn btn-primary" id="reuploadImageBtn">Reupload</button>
+          <button class="btn" style="background:#ffd6e1;color:#5b2330" id="deleteImageBtn">Delete</button>
         </div>
       </div>
 
@@ -348,15 +348,13 @@ nav a:hover {
         <h3>Upload Video</h3>
         <label class="uploader">
           <input type="file" accept="video/*" id="videoInput" hidden>
-          <div id="videoPlaceholder">Click here to upload video</div>
+          <div id="videoPlaceholder" class="upload-text">Click here to upload video</div>
         </label>
 
         <div id="videoControls" class="hide">
           <video id="videoPreview" class="preview-video" controls></video>
-          <div class="action-row">
-            <button class="btn btn-primary" id="reuploadVideoBtn">Reupload</button>
-            <button class="btn" style="background:#ffdde6;color:#5b2330" id="deleteVideoBtn">Delete</button>
-          </div>
+          <button class="btn btn-primary" id="reuploadVideoBtn">Reupload</button>
+          <button class="btn" style="background:#ffd6e1;color:#5b2330" id="deleteVideoBtn">Delete</button>
         </div>
       </div>
 
@@ -366,7 +364,7 @@ nav a:hover {
 </div>
 
 <script>
-/* Simple navigation */
+/* NAVIGATION */
 function show(section){
   homeSection.classList.add("hide");
   mainSection.classList.add("hide");
@@ -374,65 +372,34 @@ function show(section){
   section.classList.remove("hide");
 }
 
-const homeSection = document.getElementById("homeSection");
-const mainSection = document.getElementById("mainSection");
-const converterSection = document.getElementById("converterSection");
+const homeSection=document.getElementById("homeSection");
+const mainSection=document.getElementById("mainSection");
+const converterSection=document.getElementById("converterSection");
 
-document.getElementById("navHome").onclick = () => show(homeSection);
-document.getElementById("navMain").onclick = () => show(mainSection);
-document.getElementById("navConvert").onclick = () => show(converterSection);
+navHome.onclick=()=>show(homeSection);
+navMain.onclick=()=>show(mainSection);
+navConvert.onclick=()=>show(converterSection);
 
-document.getElementById("gotoMainBtn").onclick = () => show(mainSection);
-document.getElementById("gotoConverterBtn").onclick = () => show(converterSection);
+gotoMainBtn.onclick=()=>show(mainSection);
+gotoConverterBtn.onclick=()=>show(converterSection);
 
 /* IMAGE UPLOAD */
-const imgInput = document.getElementById("imageInput");
-const imgPlaceholder = document.getElementById("imagePlaceholder");
-const imgControls = document.getElementById("imageControls");
-const imgPreview = document.getElementById("imagePreview");
-
-document.querySelectorAll(".uploader")[0].onclick = () => imgInput.click();
-
-imgInput.onchange = () => {
-  const file = imgInput.files[0];
-  if (!file) return;
-  imgPreview.src = URL.createObjectURL(file);
-  imgPlaceholder.style.display = "none";
-  imgControls.classList.remove("hide");
+imageInput.onchange=()=> {
+  let file=imageInput.files[0];
+  if(!file) return;
+  imagePreview.src=URL.createObjectURL(file);
+  imagePlaceholder.style.display="none";
+  imageControls.classList.remove("hide");
+};
+reuploadImageBtn.onclick=()=>imageInput.click();
+deleteImageBtn.onclick=()=>{
+  imageInput.value="";
+  imageControls.classList.add("hide");
+  imagePlaceholder.style.display="block";
 };
 
-document.getElementById("reuploadImageBtn").onclick = () => imgInput.click();
-document.getElementById("deleteImageBtn").onclick = () => {
-  imgInput.value = "";
-  imgPreview.src = "";
-  imgControls.classList.add("hide");
-  imgPlaceholder.style.display = "block";
-};
-
-/* VIDEO UPLOAD */
-const vidInput = document.getElementById("videoInput");
-const vidPlaceholder = document.getElementById("videoPlaceholder");
-const vidControls = document.getElementById("videoControls");
-const vidPreview = document.getElementById("videoPreview");
-
-document.querySelectorAll(".uploader")[1].onclick = () => vidInput.click();
-
-vidInput.onchange = () => {
-  const file = vidInput.files[0];
-  if (!file) return;
-  vidPreview.src = URL.createObjectURL(file);
-  vidPlaceholder.style.display = "none";
-  vidControls.classList.remove("hide");
-};
-
-document.getElementById("reuploadVideoBtn").onclick = () => vidInput.click();
-document.getElementById("deleteVideoBtn").onclick = () => {
-  vidInput.value = "";
-  vidPreview.src = "";
-  vidControls.classList.add("hide");
-  vidPlaceholder.style.display = "block";
-};
 </script>
 
 </body>
 </html>
+

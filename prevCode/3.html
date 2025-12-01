@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Signova — Where Every Gesture Finds Its Voice</title>
+<style>
+/* =========================
+   Violet-Lavender Glow Theme
+   Single-file "multi-page" app
+   ========================= */
+:root{
+  --lavender-bg:#f7f2ff;
+  --lavender-soft:#f4eaff;
+  --violet:#8a4bff;
+  --violet-bright:#a56aff;
+  --violet-dark:#6921d9;
+  --text-dark:#2b223b;
+  --text-muted:#6b5c80;
+  --shadow-glow:0 0 32px rgba(157,122,255,0.26);
+  --shadow-soft:0 12px 36px rgba(113,66,195,0.09);
+  --outline-gradient:linear-gradient(90deg,var(--violet),var(--violet-bright));
+  --max-width:1350px;
+  --radius:18px;
+  font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+}
+
+/* reset */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;width:100%}
+body{
+  background:linear-gradient(180deg,var(--lavender-bg), #f1e7ff 40%);
+  -webkit-font-smoothing:antialiased;
+  color:var(--text-dark);
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+}
+
+/* app wrapper */
+.app{
+  width:100%;
+  min-height:100vh;
+  max-width:var(--max-width);
+  background:linear-gradient(180deg,#fff,var(--lavender-soft));
+  border-radius:0;
+}
+
+/* header */
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:22px 44px;
+}
+.logo{display:flex;align-items:center;gap:14px}
+.logo svg{width:56px;height:56px}
+.brand-title{font-weight:900;font-size:20px}
+.brand-tag{color:var(--text-muted);font-size:13px}
+
+/* top nav (keeps links looking like different pages) */
+nav a{
+  margin-left:16px;
+  text-decoration:none;
+  color:var(--violet-dark);
+  font-weight:800;
+  padding:10px 14px;
+  border-radius:12px;
+  transition:all .16s ease;
+}
+nav a:hover{background:rgba(170,110,255,0.08);box-shadow:var(--shadow-glow);transform:translateY(-2px)}
+
+/* main = full viewport area for each page */
+.main-area{
+  min-height:calc(100vh - 88px); /* header height ~88 */
+  padding:40px 64px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  overflow:hidden;
+}
+
+/* page sections; each fills the main area */
+.page{
+  width:100%;
+  max-width:1100px;
+  min-height:calc(100vh - 88px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:48px;
+  box-sizing:border-box;
+  transition:opacity .34s ease, transform .34s ease, visibility .34s ease;
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%) translateY(0);
+  top:0;
+  background:linear-gradient(145deg,#ffffff,#f3e7ff);
+  border-radius:18px;
+  border:1px solid rgba(158,116,255,0.12);
+  box-shadow:0 10px 40px rgba(150,100,255,0.06);
+}
+
+/* hidden by default */
+.page.hidden{
+  opacity:0;
+  visibility:hidden;
+  transform:translateX(-50%) translateY(12px) scale(.995);
+  pointer-events:none;
+}
+
+/* visible */
+.page.visible{
+  opacity:1;
+  visibility:visible;
+  transform:translateX(-50%) translateY(0) scale(1);
+  pointer-events:auto;
+}
+
+/* floating decorative glows */
+.page::before{
+  content:"";
+  position:absolute;
+  width:240px;height:240px;border-radius:50%;
+  filter:blur(40px);
+  top:-80px; right:-80px;
+  background:radial-gradient(circle, rgba(180,110,255,0.28), transparent 60%);
+  pointer-events:none;
+  z-index:0;
+}
+.page::after{
+  content:"";
+  position:absolute;
+  width:260px;height:260px;border-radius:50%;
+  filter:blur(40px);
+  bottom:-80px; left:-80px;
+  background:radial-gradient(circle, rgba(120,70,255,0.18), transparent 60%);
+  pointer-events:none;
+  z-index:0;
+}
+
+/* HERO (Home) specific */
+.hero-wrap{
+  text-align:center;
+  z-index:2;
+  max-width:920px;
+}
+.hero-title{font-size:40px;font-weight:900;color:var(--violet-dark);line-height:1.02}
+.hero-sub{margin-top:14px;color:var(--text-muted);font-size:16.5px;line-height:1.45}
+
+/* CARD styles for Main and Converter */
+.card{
+  background:linear-gradient(180deg,#fff,#fff);
+  border-radius:14px;
+  padding:22px;
+  width:100%;
+  max-width:920px;
+  z-index:2;
+  box-shadow:var(--shadow-soft);
+  border:1px solid rgba(160,120,255,0.10);
+}
+
+/* offers etc */
+.section-title{font-size:22px;font-weight:900;color:var(--violet-dark);margin-bottom:12px}
+.offer-item{display:flex;gap:14px;margin-bottom:14px}
+.num{width:52px;height:52px;border-radius:12px;background:linear-gradient(180deg,#f0e4ff,#fff);display:flex;align-items:center;justify-content:center;font-weight:900;color:var(--violet-dark);box-shadow:var(--shadow-glow)}
+
+/* uploader box */
+.uploader{
+  border:2px dashed rgba(150,100,255,0.22);
+  padding:26px 36px;border-radius:14px;text-align:center;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  background:linear-gradient(180deg,#faf5ff,#ffffff);
+  cursor:pointer;transition:all .16s ease;
+}
+.uploader:hover{border-color:var(--violet);box-shadow:var(--shadow-glow);transform:translateY(-3px)}
+.upload-text{font-weight:800;color:var(--text-dark);font-size:16px}
+
+/* preview */
+.preview-img,.preview-video{width:100%;max-height:360px;border-radius:12px;box-shadow:var(--shadow-glow);margin-top:18px}
+
+/* BUTTONS - Gradient Outline (D) */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:12px 18px;border-radius:12px;font-weight:900;font-size:15px;cursor:pointer;border:0;background:transparent;position:relative;overflow:visible;
+  transition:all .20s cubic-bezier(.2,.9,.2,1);
+}
+.btn.primary{
+  background:linear-gradient(90deg,var(--violet),var(--violet-bright));
+  color:#fff;box-shadow:0 12px 34px rgba(138,75,255,0.14);
+}
+.btn.primary:hover{transform:translateY(-4px);box-shadow:0 18px 60px rgba(165,106,255,0.18)}
+.btn.outline{
+  padding:12px 20px;
+}
+.btn.outline::before{
+  content:"";position:absolute;inset:0;border-radius:12px;padding:2px;background:var(--outline-gradient);z-index:-2;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude; box-shadow:0 8px 28px rgba(138,75,255,0.10);
+}
+.btn.outline::after{content:"";position:absolute;inset:6px;border-radius:10px;background:transparent;z-index:-1}
+.btn.outline:hover::after{background:linear-gradient(180deg, rgba(138,75,255,0.06), rgba(165,106,255,0.03));transform:translateY(-2px)}
+.btn.ghost{border-radius:12px;padding:10px 14px;background:transparent;color:var(--violet-dark);font-weight:800}
+
+/* small helpers */
+.top-actions{display:flex;gap:12px;align-items:center;justify-content:center;margin-top:20px}
+.hidden{display:none}
+
+/* responsive */
+@media(max-width:980px){
+  header{padding:18px 22px}
+  .main-area{padding:22px}
+  .page{padding:28px}
+  .hero-title{font-size:28px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- header -->
+  <header>
+    <div style="display:flex;align-items:center;gap:12px">
+      <svg viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+        <defs><radialGradient id="g1"><stop offset="0%" stop-color="#e6d6ff"/><stop offset="100%" stop-color="#8a4bff"/></radialGradient></defs>
+        <circle cx="60" cy="60" r="50" fill="url(#g1)" opacity="0.45"></circle>
+      </svg>
+      <div>
+        <div class="brand-title">Signova</div>
+        <div class="brand-tag">Bridging hands & words — Sign to Text</div>
+      </div>
+    </div>
+
+    <nav aria-label="Primary">
+      <a href="#home" id="linkHome">Home</a>
+      <a href="#main" id="linkMain">Main</a>
+      <a href="#converter" id="linkConverter">Converter</a>
+    </nav>
+  </header>
+
+  <!-- main area: pages (absolute stacked) -->
+  <div class="main-area" role="main">
+
+    <!-- HOME PAGE -->
+    <section id="page-home" class="page" aria-labelledby="homeTitle">
+      <div class="hero-wrap" style="text-align:center;z-index:2;">
+        <h1 id="homeTitle" class="hero-title">Where Every Gesture Finds Its Voice</h1>
+        <p class="hero-sub">An intelligent, glowing interface powered by gesture recognition — translating visual hand signs into clear, meaningful text with smooth accuracy.</p>
+
+        <div class="top-actions" role="group" aria-label="Primary actions">
+          <button id="homeGetStarted" class="btn primary" type="button">Get Started →</button>
+          <button id="homeDemo" class="btn outline" type="button">Quick demo</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- MAIN PAGE -->
+    <section id="page-main" class="page hidden" aria-labelledby="mainTitle">
+      <div class="card" role="region" aria-labelledby="mainTitle" style="max-width:920px;">
+        <h2 id="mainTitle" class="section-title">What This Website Offers</h2>
+
+        <div class="offer-item">
+          <div class="num">1</div>
+          <div><strong>Upload & Preview</strong><br>Upload sign images or short gesture clips and preview them instantly in high clarity.</div>
+        </div>
+
+        <div class="offer-item">
+          <div class="num">2</div>
+          <div><strong>Refine Inputs</strong><br>Quickly re-upload or delete files to perfect your gesture samples.</div>
+        </div>
+
+        <div class="offer-item">
+          <div class="num">3</div>
+          <div><strong>Fast Interpretation</strong><br>Once connected to the model, gestures convert to accurate, readable text within seconds.</div>
+        </div>
+
+        <div style="margin-top:18px;display:flex;gap:12px;">
+          <button id="mainToConverter" class="btn outline" type="button">Convert Sign Language →</button>
+          <a href="#home" class="btn ghost" style="text-decoration:none">Back to Home</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONVERTER PAGE -->
+    <section id="page-converter" class="page hidden" aria-labelledby="convTitle">
+      <div style="width:100%;max-width:920px;z-index:2;">
+        <div class="card" style="margin-bottom:18px;">
+          <h3 style="margin-bottom:12px" id="convTitle">Upload Image</h3>
+          <label class="uploader" id="labelImage" tabindex="0">
+            <input id="imageInput" type="file" accept="image/*" hidden>
+            <div class="upload-text">Click here to upload image</div>
+          </label>
+
+          <div id="imageControls" class="hidden" aria-hidden="true">
+            <img id="imagePreview" class="preview-img" alt="Uploaded image preview">
+            <div style="display:flex;gap:10px;margin-top:12px">
+              <button id="reuploadImageBtn" class="btn outline" type="button">Reupload</button>
+              <button id="deleteImageBtn" class="btn ghost" type="button">Delete</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 style="margin-bottom:12px">Upload Video</h3>
+          <label class="uploader" id="labelVideo" tabindex="0">
+            <input id="videoInput" type="file" accept="video/*" hidden>
+            <div class="upload-text">Click here to upload video</div>
+          </label>
+
+          <div id="videoControls" class="hidden" aria-hidden="true">
+            <video id="videoPreview" class="preview-video" controls></video>
+            <div style="display:flex;gap:10px;margin-top:12px">
+              <button id="reuploadVideoBtn" class="btn outline" type="button">Reupload</button>
+              <button id="deleteVideoBtn" class="btn ghost" type="button">Delete</button>
+            </div>
+          </div>
+
+        </div>
+
+        <div style="margin-top:18px; display:flex; gap:12px;">
+          <a href="#main" class="btn ghost" style="text-decoration:none">Back to Main</a>
+          <button id="sendToModel" class="btn primary" type="button">Send to Model</button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<script>
+/* =========================
+   Hash-based routing + behavior
+   ========================= */
+
+const pages = {
+  home: document.getElementById('page-home'),
+  main: document.getElementById('page-main'),
+  converter: document.getElementById('page-converter')
+};
+
+function showPage(name, push=false){
+  // hide all
+  Object.values(pages).forEach(p => {
+    p.classList.remove('visible'); p.classList.add('hidden');
+  });
+  // show chosen
+  const target = pages[name] || pages.home;
+  target.classList.remove('hidden'); target.classList.add('visible');
+
+  // update document title
+  const titles = { home: 'Signova — Home', main: 'Signova — Main', converter: 'Signova — Converter' };
+  document.title = titles[name] || titles.home;
+
+  // update url hash (if requested)
+  if(push){
+    history.pushState(null, '', `#${name}`);
+  } else {
+    // replace state when user navigates via nav links or on load
+    history.replaceState(null, '', `#${name}`);
+  }
+}
+
+/* on load: read hash */
+function initialRoute(){
+  const h = location.hash.replace('#','') || 'home';
+  showPage(h, false);
+}
+initialRoute();
+
+/* handle nav clicks: they are anchors with hashes - but support programmatic clicking */
+document.getElementById('linkHome').addEventListener('click', e => { e.preventDefault(); showPage('home', true); });
+document.getElementById('linkMain').addEventListener('click', e => { e.preventDefault(); showPage('main', true); });
+document.getElementById('linkConverter').addEventListener('click', e => { e.preventDefault(); showPage('converter', true); });
+
+/* header CTAs */
+document.getElementById('homeGetStarted').addEventListener('click', ()=> showPage('main', true));
+document.getElementById('mainToConverter').addEventListener('click', ()=> showPage('converter', true));
+
+/* Back links using hash anchors already work; handle popstate for browser back/forward */
+window.addEventListener('popstate', ()=> {
+  const h = location.hash.replace('#','') || 'home';
+  showPage(h, false);
+});
+
+/* =========================
+   Upload logic (image & video)
+   ========================= */
+
+/* Image */
+const labelImage = document.getElementById('labelImage');
+const imageInput = document.getElementById('imageInput');
+const imagePlaceholder = labelImage.querySelector('.upload-text');
+const imageControls = document.getElementById('imageControls');
+const imagePreview = document.getElementById('imagePreview');
+const reuploadImageBtn = document.getElementById('reuploadImageBtn');
+const deleteImageBtn = document.getElementById('deleteImageBtn');
+
+labelImage.addEventListener('click', ()=> imageInput.click());
+labelImage.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); imageInput.click(); } });
+
+imageInput.addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if(!file) return;
+  if(!file.type.startsWith('image/')) { alert('Please upload a valid image file.'); imageInput.value = ''; return; }
+  imagePreview.src = URL.createObjectURL(file);
+  imageControls.classList.remove('hidden');
+  imageControls.setAttribute('aria-hidden','false');
+  imagePlaceholder.style.display = 'none';
+});
+
+reuploadImageBtn.addEventListener('click', ()=> imageInput.click());
+deleteImageBtn.addEventListener('click', ()=> {
+  if(!confirm('Delete uploaded image?')) return;
+  imageInput.value = ''; imagePreview.src = ''; imageControls.classList.add('hidden'); imageControls.setAttribute('aria-hidden','true'); imagePlaceholder.style.display='block';
+});
+
+/* Video */
+const labelVideo = document.getElementById('labelVideo');
+const videoInput = document.getElementById('videoInput');
+const videoPlaceholder = labelVideo.querySelector('.upload-text');
+const videoControls = document.getElementById('videoControls');
+const videoPreview = document.getElementById('videoPreview');
+const reuploadVideoBtn = document.getElementById('reuploadVideoBtn');
+const deleteVideoBtn = document.getElementById('deleteVideoBtn');
+
+labelVideo.addEventListener('click', ()=> videoInput.click());
+labelVideo.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); videoInput.click(); } });
+
+videoInput.addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if(!file) return;
+  if(!file.type.startsWith('video/')) { alert('Please upload a valid video file.'); videoInput.value = ''; return; }
+  videoPreview.src = URL.createObjectURL(file);
+  videoControls.classList.remove('hidden');
+  videoControls.setAttribute('aria-hidden','false');
+  videoPlaceholder.style.display = 'none';
+  videoPreview.play().catch(()=>{/* autoplay blocked sometimes */});
+});
+
+reuploadVideoBtn.addEventListener('click', ()=> videoInput.click());
+deleteVideoBtn.addEventListener('click', ()=> {
+  if(!confirm('Delete uploaded video?')) return;
+  videoInput.value = ''; videoPreview.pause(); videoPreview.src = ''; videoControls.classList.add('hidden'); videoControls.setAttribute('aria-hidden','true'); videoPlaceholder.style.display='block';
+});
+
+/* Send to model (UI placeholder only) */
+document.getElementById('sendToModel')?.addEventListener('click', ()=> {
+  alert('Send to model: this will call your backend endpoint when ready. (This is a frontend demo.)');
+});
+
+/* Quick demo */
+document.getElementById('homeDemo').addEventListener('click', ()=> {
+  const b = document.getElementById('homeDemo');
+  b.disabled = true; b.style.opacity = '.7'; b.textContent = 'Running demo...';
+  setTimeout(()=>{ b.disabled=false; b.style.opacity='1'; b.textContent='Quick demo'; alert('Demo: UI simulates conversion when backend is connected.'); }, 900);
+});
+
+/* Accessibility niceties */
+document.querySelectorAll('a,button,label').forEach(el => el.addEventListener('click', ()=> el.blur && el.blur()));
+</script>
+</body>
+</html>
