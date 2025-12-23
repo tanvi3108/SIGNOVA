@@ -151,7 +151,7 @@ nav.topnav a:hover{ background:rgba(150,100,255,0.07); box-shadow:var(--glow); t
 }
 .preview img{
   width:100%;
-  max-height:420px;
+  max-height:50px;
   object-fit:contain;
   border-radius:10px;
   background:#fff;
@@ -304,113 +304,6 @@ nav.topnav a:hover{ background:rgba(150,100,255,0.07); box-shadow:var(--glow); t
 
   </div> <!-- end container -->
 
-<script>
-/* Elements */
-const imageInput = document.getElementById('imageInput');
-const uploadBtn = document.getElementById('uploadBtn');
-const removeBtn = document.getElementById('removeBtn');
-const reuploadBtn = document.getElementById('reuploadBtn');
-const previewArea = document.getElementById('previewArea');
-const imagePreview = document.getElementById('imagePreview');
-const convertBtn = document.getElementById('convertBtn');
-const resultBox = document.getElementById('resultBox');
-const resultText = document.getElementById('resultText');
-const clearResultBtn = document.getElementById('clearResultBtn');
-const uploaderTitle = document.getElementById('uploaderTitle');
-const noteText = document.getElementById('noteText');
-
-let currentFile = null;
-
-/* Helpers */
-function resetUploader(){
-  imageInput.value = "";
-  currentFile = null;
-  previewArea.style.display = 'none';
-  removeBtn.style.display = 'none';
-  reuploadBtn.style.display = 'none';
-  convertBtn.disabled = true;
-  uploaderTitle.textContent = 'Upload Image';
-  resultBox.style.display = 'none';
-}
-
-function showPreview(file){
-  const url = URL.createObjectURL(file);
-  imagePreview.src = url;
-  previewArea.style.display = 'block';
-  removeBtn.style.display = 'inline-flex';
-  reuploadBtn.style.display = 'inline-flex';
-  convertBtn.disabled = false;
-  uploaderTitle.textContent = file.name;
-}
-
-/* Read file selection */
-imageInput.addEventListener('change', (e) => {
-  const file = e.target.files[0];
-  if(!file) return resetUploader();
-  currentFile = file;
-  showPreview(file);
-});
-
-/* Remove file */
-removeBtn.addEventListener('click', () => {
-  resetUploader();
-});
-
-/* Reupload (trigger input) */
-reuploadBtn.addEventListener('click', () => {
-  imageInput.click();
-});
-
-/* Convert button behavior (demo) */
-convertBtn.addEventListener('click', async () => {
-  if(!currentFile){
-    alert('Please upload an image first.');
-    return;
-  }
-
-  // UI: show converting state briefly
-  convertBtn.textContent = 'Converting...';
-  convertBtn.disabled = true;
-
-  // Simulate a small delay
-  await new Promise(r => setTimeout(r, 650));
-
-  // DEMO heuristic: try to find a letter in the filename (good for local testing)
-  const filename = (currentFile.name || '').toLowerCase();
-  const letterMatch = filename.match(/[a-z]/); // first letter char
-  let detected = null;
-  if(letterMatch){
-    // try to pick the first alphabetic char as detected letter (demo only)
-    detected = letterMatch[0].toUpperCase();
-  }
-
-  // If heuristic found something, show it; otherwise show helpful message
-  if(detected){
-    resultText.textContent = detected;
-  } else {
-    resultText.textContent = 'Could not detect automatically — connect the model backend to get real results.';
-  }
-
-  resultBox.style.display = 'block';
-  clearResultBtn.style.display = 'inline-flex';
-  convertBtn.textContent = 'Convert into Text';
-});
-
-/* Clear result */
-clearResultBtn.addEventListener('click', () => {
-  resultBox.style.display = 'none';
-  clearResultBtn.style.display = 'none';
-});
-
-/* Extra: support click on uploader area to open file dialog */
-document.getElementById('uploader').addEventListener('click', (e) => {
-  // ignore clicks on the preview image or buttons
-  if(e.target.tagName === 'IMG' || e.target.closest('.btn') || e.target.tagName === 'BUTTON') return;
-  imageInput.click();
-});
-
-/* initialize */
-resetUploader();
-</script>
+<script src = 'script.js'></script>
 </body>
 </html>
